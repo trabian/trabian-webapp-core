@@ -17,11 +17,11 @@ module.exports = (grunt) ->
       options:
         spawn: false # This reuses the same process, speeding up task running
 
-      # Watch all app-related .js, .coffee, and .jade files and regenerate app.js as
+      # Watch all app-related .js and .coffee files and regenerate app.js as
       # needed. If any other extensions are used, add them in the 'files'
       # expression below.
       browserify:
-        files: ['app/**/*.{coffee,jade,js}']
+        files: ['app/**/*.{coffee,js}']
         tasks: ['coffeelint:app', 'browserify:app', 'karma:unit:run']
 
       karma:
@@ -70,15 +70,13 @@ module.exports = (grunt) ->
           ]
 
           # Allow direct module reference to any files with the following
-          # extensions. For example, this allows use of require('./template')
-          # instead of require('./template.jade')
+          # extensions.
           extensions: [
-            '.js', '.coffee', '.jade'
+            '.js', '.coffee'
           ]
 
-          # Transform .jade and .coffee files into their javascript equivalents.
+          # Transform .coffee files into their javascript equivalents.
           transform: [
-            'simple-jadeify'
             'coffeeify'
           ]
 
@@ -88,7 +86,7 @@ module.exports = (grunt) ->
           # the app would need to be relative.
           aliasMappings: [
             cwd: 'app'
-            src: ['**/*.{coffee,js,jade}']
+            src: ['**/*.{coffee,js}']
             dest: 'core'
             rename: (src, dest) ->
 
