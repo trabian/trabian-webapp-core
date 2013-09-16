@@ -1,0 +1,23 @@
+{
+  "name": "trabian-webapp-core",
+  "version": "0.0.0",
+  "authors": [
+    "Matt Dean <matt@trabian.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "chaplin": "~0.10.0",
+    "underscore": "~1.5.1",
+    "backbone": "~1.0.0",
+    "jquery": "~2.0.3",
+    "bootstrap-sass": "~3.0.0",
+    "backbone.stickit": "master"
+  }
+}
