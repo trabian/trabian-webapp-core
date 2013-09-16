@@ -157,5 +157,5 @@ module.exports = (grunt) ->
     'watch'
   ]
 
-  # Run the 'server' task by default.
-  grunt.registerTask 'default', ['server']
+  # Run the 'test' task by default.
+  grunt.registerTask 'default', ['test']
