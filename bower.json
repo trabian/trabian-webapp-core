@@ -19,6 +19,7 @@
     "underscore": "~1.5.1",
     "backbone": "~1.0.0",
     "jquery": "~2.0.3",
-    "backbone.stickit": "master"
+    "backbone.stickit": "master",
+    "sinon": "http://sinonjs.org/releases/sinon-1.7.1.js"
   }
 }
