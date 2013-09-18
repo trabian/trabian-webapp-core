@@ -42,6 +42,44 @@ describe 'FakeServer', ->
 
         done()
 
+    it 'should support :params in path', (done) ->
+
+      @server = new FakeServer
+        delay: 0
+        responses: (server) ->
+
+          server.get '/test/:id', (req, params) ->
+
+            req.respond
+              id: params.id
+
+      $.get('/test/23').done (data) ->
+
+        data.should.deep.equal
+          id: '23'
+
+        done()
+
+    it 'should support query params in path', (done) ->
+
+      @server = new FakeServer
+        delay: 0
+        responses: (server) ->
+
+          server.get '/test/:id', (req, params) ->
+
+            req.respond
+              id: params.id
+              name: params.name
+
+      $.get('/test/23?name=test').done (data) ->
+
+        data.should.deep.equal
+          id: '23'
+          name: 'test'
+
+        done()
+
   it 'should support adding POST responses', (done) ->
 
     @server = new FakeServer
