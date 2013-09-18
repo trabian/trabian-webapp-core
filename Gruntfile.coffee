@@ -51,6 +51,7 @@ module.exports = (grunt) ->
             'bower_components/backbone/backbone.js:backbone'
             'bower_components/backbone.stickit/backbone.stickit.js:stickit'
             'bower_components/jquery/jquery.js:jquery'
+            'bower_components/uritemplates/bin/uritemplate.js:uritemplate'
           ]
 
       app:
@@ -58,7 +59,7 @@ module.exports = (grunt) ->
         dest: '.tmp/app.js'
         options:
           debug: true
-          external: ['backbone', 'underscore', 'jquery', 'stickit']
+          external: ['backbone', 'underscore', 'jquery', 'stickit', 'uritemplate']
 
           # Chaplin needs the ability to reference modules within the app, so
           # it needs to be included in the same .js file as the app. For

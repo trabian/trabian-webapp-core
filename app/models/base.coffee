@@ -42,8 +42,18 @@ class BaseCollection extends Chaplin.Collection
 
   parse: (resp) ->
 
+    return unless resp
+
     resourceName = _.result this, 'resourceName'
 
-    resp?[resourceName] or resp
+    if _.isObject resp
+
+      if links = resp.links
+        @links = links
+
+      for key, value of resp when key not in ['links', resourceName]
+        (@related or= {})[key] = value
+
+    resp[resourceName] or resp
 
 module.exports = { BaseModel, BaseCollection }
