@@ -1,6 +1,10 @@
 Chaplin = require 'chaplin'
 
+EventExtensions = require 'core/lib/event_extensions'
+
 module.exports = class BaseView extends Chaplin.View
+
+  _.extend @prototype, EventExtensions
 
   autoRender: true
 
