@@ -30,10 +30,10 @@ describe 'Relations links', ->
         type: 'HasMany'
         key: 'comments'
         collectionType: CommentCollection
-      # ,
-      #   type: 'HasMany'
-      #   key: 'owner'
-      #   relatedModel: Person
+      ,
+        type: 'HasOne'
+        key: 'owner'
+        relatedModel: Person
       ]
 
     class ProjectCollection extends BaseCollection
@@ -269,3 +269,61 @@ describe 'Relations links', ->
 
         otherTodos.should.have.length 3
         otherTodos.at(1).get('title').should.equal 'Todo #3'
+
+  describe 'HasOne relationships', ->
+
+    it 'should load the url from the parent', ->
+
+      { Project } = @classes
+
+      project = new Project
+
+      data =
+        projects: [
+          id: 1
+          name: 'My Project'
+          links:
+            owner: '/people/1'
+        ]
+
+      project.set project.parse data
+
+      url = _.result project.get('owner'), 'url'
+
+      url.should.equal '/people/1'
+
+    it 'should load the url from the parent collection', ->
+
+      { ProjectCollection } = @classes
+
+      projects = new ProjectCollection
+
+      data =
+        links:
+          "projects.owner": "/people/{projects.owner}"
+        projects: [
+          id: 1
+          name: 'My Project'
+          links:
+            owner: '3'
+        ]
+
+      projects.set projects.parse data
+
+      project = projects.first()
+
+      url = _.result project.get('owner'), 'url'
+
+      url.should.equal '/people/3'
+
+      projects.add
+        id: 2
+        name: 'My Other Project'
+        links:
+          owner: 5
+
+      project = projects.get 2
+
+      url = _.result project.get('owner'), 'url'
+
+      url.should.equal '/people/5'
