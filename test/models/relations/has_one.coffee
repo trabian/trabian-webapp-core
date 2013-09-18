@@ -49,7 +49,7 @@ describe 'Relations (HasOne)', ->
 
     owner = project.get 'owner'
 
-    expect(owner).to.be.defined
+    expect(owner).to.be.ok
 
     owner.should.be.an.instanceof Person
 
