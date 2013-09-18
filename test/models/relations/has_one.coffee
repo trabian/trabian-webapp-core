@@ -71,3 +71,23 @@ describe 'Relations (HasOne)', ->
     expect(owner).to.be.defined
 
     owner.should.be.an.instanceof Person
+
+  it 'should create the model if the related link is provided later', ->
+
+    { Project } = @classes
+
+    project = new Project
+
+    owner = project.get 'owner'
+
+    expect(owner).to.be.undefined
+
+    project.set
+      links:
+        owner: '/people/1'
+
+    owner = project.get 'owner'
+
+    expect(owner).to.be.ok
+
+    _.result(owner, 'url').should.equal '/people/1'
