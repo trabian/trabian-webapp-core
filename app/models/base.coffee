@@ -1,6 +1,16 @@
 Chaplin = require 'chaplin'
 
+EventExtensions = require 'core/lib/event_extensions'
+
 class BaseModel extends Chaplin.Model
+
+  _.extend @prototype, EventExtensions
+
+  initialize: ->
+
+    super
+
+    @buildRelations()
 
   # For individual model requests the data will be returned as the only
   # element of an array at `resourceName`. For example, if resourceName is
@@ -20,6 +30,8 @@ class BaseModel extends Chaplin.Model
     _.first(resp?[@resourceName]) or resp
 
 class BaseCollection extends Chaplin.Collection
+
+  _.extend @prototype, EventExtensions
 
   resourceName: ->
     _.result @model.prototype, 'resourceName'

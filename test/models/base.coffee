@@ -40,6 +40,31 @@ describe 'Base model', ->
 
       expect(parsedData).to.be.undefined
 
+  describe 'event extensions', ->
+
+    it 'should support onAndTrigger', (done) ->
+
+      class Project extends BaseModel
+
+      project = new Project
+
+      project.onAndTrigger 'someEvent', ->
+        done()
+
+    it 'should support listenToAndTrigger', (done) ->
+
+      class Project extends BaseModel
+
+      class Todo extends BaseModel
+
+      project = new Project
+
+      todo = new Todo
+
+      project.listenToAndTrigger todo, 'someEvent', ->
+        this.should.equal project
+        done()
+
 describe 'Base collection', ->
 
   describe 'parse', ->
@@ -140,3 +165,28 @@ describe 'Base collection', ->
         model: Project
 
       (new ProjectCollection).url().should.equal '/projects'
+
+  describe 'event extensions', ->
+
+    it 'should support onAndTrigger', (done) ->
+
+      class ProjectCollection extends BaseCollection
+
+      projectCollection = new ProjectCollection
+
+      projectCollection.onAndTrigger 'someEvent', ->
+        done()
+
+    it 'should support listenToAndTrigger', (done) ->
+
+      class ProjectCollection extends BaseCollection
+
+      class Todo extends BaseModel
+
+      projectCollection = new ProjectCollection
+
+      todo = new Todo
+
+      projectCollection.listenToAndTrigger todo, 'someEvent', ->
+        this.should.equal projectCollection
+        done()
