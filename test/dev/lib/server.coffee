@@ -42,6 +42,24 @@ describe 'FakeServer', ->
 
         done()
 
+    it 'should support regular expressions', (done) ->
+
+      @server = new FakeServer
+        delay: 0
+        responses: (server) ->
+
+          server.get /\/test\/(\d+)/, (req, id) ->
+
+            req.respond
+              id: id
+
+      $.get('/test/23').done (data) ->
+
+        data.should.deep.equal
+          id: '23'
+
+        done()
+
     it 'should support :params in path', (done) ->
 
       @server = new FakeServer

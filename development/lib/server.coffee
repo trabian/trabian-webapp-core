@@ -17,13 +17,13 @@ module.exports = class FakeServer
 
     keys = []
 
+    useRegExpFormat = _.isRegExp route
+
     route = utils.pathRegexp route, keys
 
     wrappedResponse = if _.isFunction response
 
       (req, matches...) =>
-
-        params = @_buildParams keys, matches, req
 
         oldRespond = req.respond
 
@@ -34,7 +34,14 @@ module.exports = class FakeServer
           else
             oldRespond.apply req, arguments
 
-        response req, params
+        if useRegExpFormat
+
+          response req, matches...
+
+        else
+
+          params = @_buildParams keys, matches, req
+          response req, params
 
     else
 
