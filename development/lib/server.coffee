@@ -6,10 +6,11 @@ module.exports = class FakeServer
 
   constructor: (@options) ->
 
+    @options.delay ?= 0
+
     @server = sinon.fakeServer.create()
 
     @server.autoRespond = @options.autoRespond ? true
-    @server.autoRespondAfter = @options.delay ? 500
 
     @options.responses? @
 
@@ -23,16 +24,26 @@ module.exports = class FakeServer
 
     wrappedResponse = if _.isFunction response
 
+      # Wrap the function-based version of fakeServer's respondWith
       (req, matches...) =>
 
-        oldRespond = req.respond
+        originalRespond = req.respond
 
-        req.respond = =>
+        req.respond = (responseArgs...) =>
 
-          if arguments.length is 1
-            oldRespond.apply req, @_buildDefaultResponse arguments[0]
+          if responseArgs.length is 1
+            responseArgs = @_buildDefaultResponse arguments[0]
+
+          delay = _.result @options, 'delay'
+
+          if delay
+
+            setTimeout ->
+              originalRespond.apply req, responseArgs
+            , delay
+
           else
-            oldRespond.apply req, arguments
+            originalRespond.apply req, responseArgs
 
         if useRegExpFormat
 
