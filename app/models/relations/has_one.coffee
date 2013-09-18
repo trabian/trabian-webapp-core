@@ -34,6 +34,6 @@ build = (relation) ->
 
           model.url = url
 
-          @set key, model, silent: true
+          @set key, model
 
 module.exports = { build }
