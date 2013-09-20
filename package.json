@@ -2,6 +2,18 @@
   "name": "trabian-webapp-core",
   "version": "0.0.2",
   "description": "Core functionality for Trabian web apps.",
+  "author": {
+    "name": "Matt Dean",
+    "email": "matt@trabian.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trabian/trabian-webapp-core/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/trabian/trabian-webapp-core.git"
+  },
   "scripts": {
     "test": "grunt test"
   },
