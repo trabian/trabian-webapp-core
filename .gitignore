@@ -1,1 +1,8 @@
+node_modules
+bower_components
+*.log
+.sass-cache
+.DS_Store
+*.sublime-project
+*.sublime-workspace
 .tmp
