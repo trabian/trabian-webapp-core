@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "0.10"
+before_script:
+  - npm install -g grunt-cli
+notifications:
+  flowdock: 3a6c065ca30d00cf2150bbc102ce8153
