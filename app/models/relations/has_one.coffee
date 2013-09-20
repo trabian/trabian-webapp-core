@@ -1,5 +1,3 @@
-shared = require './shared'
-
 build = (relation) ->
 
   { key, relatedModel } = relation
@@ -13,27 +11,21 @@ build = (relation) ->
 
   @onAndTrigger 'change:links', ->
 
-    if links = @get 'links'
+    if link = @get('links')?[key]
 
-      if link = links[key]
+      # `findLink` is dependent on dynamic data, so it needs to be a method.
+      # `No need to fallback to the original `url` method since we wouldn't
+      # `reach this point unless we'd already established that a link exists.
+      url = => @findLink key
 
-        url = =>
+      if model = @get key
 
-          if url = shared.urlForRelated.call this, key
-            url
-          else
-            link
+        # If the model exists, replace the url with the new version.
+        model.url = url
 
-        if model = @get key
+      else
 
-          model.url = url
-
-        else
-
-          model = new relatedModel
-
-          model.url = url
-
-          @set key, model
+        # ... otherwise, create a new related model.
+        @set key, new relatedModel null, { url }
 
 module.exports = { build }

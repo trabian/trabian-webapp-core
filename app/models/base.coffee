@@ -2,10 +2,11 @@ Chaplin = require 'chaplin'
 
 EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
+LinkExtensions = require './links'
 
 class BaseModel extends Chaplin.Model
 
-  _.extend @prototype, EventExtensions, RelationExtensions
+  _.extend @prototype, EventExtensions, RelationExtensions, LinkExtensions
 
   initialize: ->
 
