@@ -5,7 +5,7 @@
     "Matt Dean <matt@trabian.com>"
   ],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
