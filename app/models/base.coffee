@@ -52,7 +52,7 @@ class BaseCollection extends Chaplin.Collection
       if links = resp.links
         @links = links
 
-      for key, value of resp when key not in ['links', resourceName]
+      for key, value of resp when key isnt 'links'
         (@related or= {})[key] = value
 
     resp[resourceName] or resp

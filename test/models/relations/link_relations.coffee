@@ -318,6 +318,48 @@ describe 'Relations links', ->
 
         todos.should.have.length 2
 
+      it 'should support self-referential compound documents', ->
+
+        { Project, ProjectCollection, TodoCollection } = @classes
+
+        Project::relations.push
+          type: 'HasMany'
+          key: 'children'
+          collectionType: ProjectCollection
+
+        projects = new ProjectCollection
+
+        TodoCollection::resourceName = 'tasks'
+
+        data =
+          links:
+            "projects.children": '/projects/{projects.id}/children'
+          projects: [
+            id: 1
+            name: 'My Project'
+            links:
+              children: [2, 3]
+          ,
+            id: 2
+            name: 'Project #2'
+          ,
+            id: 3
+            name: 'Project #3'
+          ,
+            id: 4
+            name: 'Project #4'
+          ]
+
+        projects.set projects.parse data
+
+        children = projects.get(1).get 'children'
+
+        url = _.result children, 'url'
+
+        url.should.equal '/projects/1/children'
+
+        children.should.have.length 2
+
   describe 'HasOne relationships', ->
 
     it 'should load the url from the parent', ->
