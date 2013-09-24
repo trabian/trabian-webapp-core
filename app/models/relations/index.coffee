@@ -38,13 +38,23 @@ module.exports =
   #
   loadRelatedCollection: (key) ->
 
-    if  modelLinks = @get('links')?[key]
+    resourceName = key
+
+    if relationship = _.findWhere @relations, { key }
+
+      if collectionType = relationship.collectionType
+        resourceName = _.result collectionType.prototype, 'resourceName'
+
+    if modelLinks = @get('links')?[key]
 
       # Convert ['1', '2'] to [1, 2]
       modelLinks = _.map modelLinks, (id) ->
         parseInt id
 
-      if relatedObjects = @related?[key] or @collection?.related?[key]
+      relatedObjects = @related?[resourceName] or
+        @collection?.related?[resourceName]
+
+      if relatedObjects
 
         return _.filter relatedObjects, (related) ->
           related.id in modelLinks

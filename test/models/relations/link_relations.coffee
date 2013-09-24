@@ -270,6 +270,54 @@ describe 'Relations links', ->
         otherTodos.should.have.length 3
         otherTodos.at(1).get('title').should.equal 'Todo #3'
 
+      it 'should load compound documents using the resourceName of the collection', ->
+
+        { ProjectCollection, TodoCollection } = @classes
+
+        projects = new ProjectCollection
+
+        TodoCollection::resourceName = 'tasks'
+
+        data =
+          links:
+            "projects.todos":
+              href: '/todos/{projects.todos}'
+              type: 'todos'
+          projects: [
+            id: 1
+            name: 'My Project'
+            links:
+              todos: ['2', '4']
+          ,
+            id: 2
+            name: 'My Other Project'
+            links:
+              todos: [1, 3, 4]
+          ]
+          tasks: [
+            id: 1
+            title: 'Todo #1'
+          ,
+            id: 2
+            title: 'Todo #2'
+          ,
+            id: 3
+            title: 'Todo #3'
+          ,
+            id: 4
+            title: 'Todo #4'
+          ]
+
+        projects.set projects.parse data
+
+        todos = projects.get(1).get 'todos'
+
+        url = _.result todos, 'url'
+
+        url.should.equal '/todos/2,4'
+
+        todos.should.have.length 2
+
   describe 'HasOne relationships', ->
 
     it 'should load the url from the parent', ->
