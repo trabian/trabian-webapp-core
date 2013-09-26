@@ -31,30 +31,3 @@ module.exports =
       .replace /\*/g, '(.*)'
 
     new RegExp "^#{path}(?=\\?|$)", if sensitive then '' else 'i'
-
-  # Returns a hash with query parameters from a query string
-  # Taken from Chaplin
-  parseQueryString: (queryString) ->
-    params = {}
-    return params unless queryString
-    pairs = queryString.split '&'
-    for pair in pairs
-      continue unless pair.length
-      [field, value] = pair.split '='
-      continue unless field.length
-      field = decodeURIComponent field
-      value = decodeURIComponent value
-      current = params[field]
-      if current
-        # Handle multiple params with same name:
-        # Aggregate them in an array.
-        if current.push
-          # Add the existing array.
-          current.push value
-        else
-          # Create a new array.
-          params[field] = [current, value]
-      else
-        params[field] = value
-
-    params

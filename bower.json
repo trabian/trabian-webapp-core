@@ -15,7 +15,7 @@
     "test"
   ],
   "dependencies": {
-    "chaplin": "~0.10.0",
+    "chaplin": "~0.11.0",
     "underscore": "~1.5.1",
     "backbone": "~1.0.0",
     "jquery": "~2.0.3",
