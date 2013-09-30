@@ -345,6 +345,8 @@ describe 'Relations links', ->
           ,
             id: 3
             name: 'Project #3'
+            links:
+              children: [4]
           ,
             id: 4
             name: 'Project #4'
@@ -359,6 +361,12 @@ describe 'Relations links', ->
         url.should.equal '/projects/1/children'
 
         children.should.have.length 2
+
+        child = children.get 3
+
+        grandchildren = child.get 'children'
+
+        grandchildren.should.have.length 1
 
   describe 'HasOne relationships', ->
 
