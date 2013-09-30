@@ -7,6 +7,9 @@ module.exports =
 
     promise = @options.promise
 
+    if _.isFunction promise
+      promise = promise.call this
+
     return unless promise and promise.state() isnt 'resolved'
 
     # We'll render once the promise is fulfilled.

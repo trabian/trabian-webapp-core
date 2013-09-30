@@ -1,6 +1,7 @@
 Chaplin = require 'chaplin'
 
 BaseView = require 'core/views/base'
+{ BaseModel } = require 'core/models/base'
 
 describe 'The BaseView with promises', ->
 
@@ -124,3 +125,35 @@ describe 'The BaseView with promises', ->
         $loadingMessage = $('body').find '.loading-alert'
 
         $loadingMessage.should.not.exist
+
+  describe 'view properties', ->
+
+    it 'should allow setting of model after promise is resolved', (done) ->
+
+      myPromise = new $.Deferred()
+
+      class SampleModel extends BaseModel
+
+      class TestView extends BaseView
+
+        render: ->
+          @$el.html @model.get 'name'
+          @
+
+      testView = new TestView
+        promise: ->
+
+          myPromise.pipe =>
+
+            @model = new SampleModel
+              name: 'Test Name'
+
+            return
+
+      myPromise.done ->
+
+        testView.$el.should.contain 'Test Name'
+
+        done()
+
+      myPromise.resolve()
