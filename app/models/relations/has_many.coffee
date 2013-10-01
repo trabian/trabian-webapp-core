@@ -29,6 +29,9 @@ updateCollection = (key, collectionType) ->
 
       collection = new collectionType value
 
+      if related = @collection?.related
+        collection.related = related
+
       buildCollectionUrl.call this, collection, key
 
       @set key, collection, silent: true

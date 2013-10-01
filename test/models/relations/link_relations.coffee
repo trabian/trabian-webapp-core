@@ -318,55 +318,78 @@ describe 'Relations links', ->
 
         todos.should.have.length 2
 
-      it 'should support self-referential compound documents', ->
+      describe '(self-referential)', ->
 
-        { Project, ProjectCollection, TodoCollection } = @classes
+        beforeEach ->
 
-        Project::relations.push
-          type: 'HasMany'
-          key: 'children'
-          collectionType: ProjectCollection
+          { Project, ProjectCollection, TodoCollection } = @classes
 
-        projects = new ProjectCollection
+          Project::relations.push
+            type: 'HasMany'
+            key: 'children'
+            collectionType: ProjectCollection
 
-        TodoCollection::resourceName = 'tasks'
+          @projects = new ProjectCollection
 
-        data =
-          links:
-            "projects.children": '/projects/{projects.id}/children'
-          projects: [
-            id: 1
-            name: 'My Project'
+          data =
             links:
-              children: [2, 3]
-          ,
-            id: 2
-            name: 'Project #2'
-          ,
-            id: 3
-            name: 'Project #3'
-            links:
-              children: [4]
-          ,
-            id: 4
-            name: 'Project #4'
-          ]
+              "projects.children": '/projects/{projects.id}/children'
+            projects: [
+              id: 1
+              name: 'My Project'
+              links:
+                children: [2, 3]
+            ,
+              id: 2
+              name: 'Project #2'
+            ,
+              id: 3
+              name: 'Project #3'
+              links:
+                children: [4]
+            ,
+              id: 4
+              name: 'Project #4'
+            ]
 
-        projects.set projects.parse data
+          @projects.set @projects.parse data
 
-        children = projects.get(1).get 'children'
+        it 'should support first-level children', ->
 
-        url = _.result children, 'url'
+          children = @projects.get(1).get 'children'
 
-        url.should.equal '/projects/1/children'
+          url = _.result children, 'url'
 
-        children.should.have.length 2
+          url.should.equal '/projects/1/children'
 
-        child = children.get 3
+          children.should.have.length 2
 
-        grandchildren = child.get 'children'
+        it 'should use the same model as in the parent collection', ->
 
-        grandchildren.should.have.length 1
+          children = @projects.get(1).get 'children'
+
+          children.get(2).should.equal @projects.get 2
+
+        describe 'nested children', ->
+
+          beforeEach ->
+            @child = @projects.get(1).get('children').get 3
+
+          it 'should have the same "related" attributes as the parent collection', ->
+
+            parent = @projects.get 1
+
+            parent.collection.related.should.equal @child.collection.related
+
+          it 'should load the related collection', ->
+
+            @child.loadRelatedCollection('children').should.have.length 1
+
+          it 'should support nested children', ->
+
+            grandChildren = @child.get 'children'
+
+            grandChildren.should.have.length 1
 
   describe 'HasOne relationships', ->
 
