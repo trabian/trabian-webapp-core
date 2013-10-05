@@ -3,6 +3,7 @@ Chaplin = require 'chaplin'
 EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
+IdentityMapExtensions = require './extensions/identity_map'
 
 class BaseModel extends Chaplin.Model
 
@@ -50,6 +51,7 @@ class BaseCollection extends Chaplin.Collection
 
   _.extend @prototype,
     EventExtensions,
+    IdentityMapExtensions,
     Chaplin.SyncMachine
 
   initialize: ->

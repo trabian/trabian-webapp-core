@@ -1,8 +1,12 @@
 { BaseModel, BaseCollection } = require 'core/models/base'
 
+IdentityCache = require 'core/models/extensions/identity_cache'
+
 describe 'Relations links', ->
 
   beforeEach ->
+
+    IdentityCache.clear()
 
     class CommentCollection extends BaseCollection
 
