@@ -17,10 +17,6 @@ module.exports =
       cache = IdentityCache.getOrCreate @model
 
       if cached = cache[attrs.id]
-
-        if id is 2
-          console.warn 'cached'
-
         return cached
       else
 
@@ -29,8 +25,5 @@ module.exports =
         unless model._validate attrs, options
           @trigger 'invalid', this, attrs, options
           return false
-
-        if id is 2
-          console.warn 'not cached', model.collection?.related?
 
         return cache[id] = model
