@@ -165,7 +165,7 @@ describe 'The BaseView', ->
 
       view.$el.should.have.class 'expanded'
 
-    it.only 'should add presenter support to the view listeners', ->
+    it 'should add presenter support to the view listeners', ->
 
       { Presenter } = require 'core/presenters/base'
 
@@ -177,7 +177,6 @@ describe 'The BaseView', ->
 
         listen:
           'someEvent presenter': ->
-            console.warn 'triggered'
             @eventTriggered = true
 
       view = new SampleView
