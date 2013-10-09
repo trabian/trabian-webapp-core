@@ -36,7 +36,8 @@ module.exports =
   #     name: 'Category 3'
   #   ]
   #
-  loadRelatedCollection: (key) ->
+  # Returns an array
+  loadRelatedObjects: (key) ->
 
     resourceName = key
 
@@ -51,10 +52,7 @@ module.exports =
       modelLinks = _.map modelLinks, (id) ->
         parseInt id
 
-      relatedObjects = @related?[resourceName] or
-        @collection?.related?[resourceName]
-
-      if relatedObjects
+      if relatedObjects = @_getResourceArray resourceName
 
         return _.filter relatedObjects, (related) ->
           related.id in modelLinks

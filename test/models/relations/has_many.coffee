@@ -1,8 +1,12 @@
 { BaseModel, BaseCollection } = require 'core/models/base'
 
+IdentityCache = require 'core/models/extensions/identity_cache'
+
 describe 'Relations (Has Many)', ->
 
   beforeEach ->
+
+    IdentityCache.clear()
 
     class TodoCollection extends BaseCollection
 

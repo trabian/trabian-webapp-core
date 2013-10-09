@@ -3,6 +3,7 @@ Chaplin = require 'chaplin'
 EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
+IdentityMapExtensions = require './extensions/identity_map'
 
 class BaseModel extends Chaplin.Model
 
@@ -46,10 +47,14 @@ class BaseModel extends Chaplin.Model
 
     _.first(resp?[@resourceName]) or resp
 
+  _getResourceArray: (key) ->
+    @related?[key] or @collection?._getResourceArray key
+
 class BaseCollection extends Chaplin.Collection
 
   _.extend @prototype,
     EventExtensions,
+    IdentityMapExtensions,
     Chaplin.SyncMachine
 
   initialize: ->
@@ -83,10 +88,22 @@ class BaseCollection extends Chaplin.Collection
 
     resp[resourceName] or resp
 
-  fetch: ->
+  fetch: (options = {}) ->
 
-    @beginSync()
+    _(options).defaults
+      force: false
 
-    super.done => @finishSync()
+    if options.force or not @isSynced()
+
+      @beginSync()
+
+      super.done => @finishSync()
+
+    else
+
+      $.Deferred (d) -> d.resolve()
+
+  _getResourceArray: (key) ->
+    @related[key]
 
 module.exports = { BaseModel, BaseCollection }
