@@ -47,6 +47,9 @@ class BaseModel extends Chaplin.Model
 
     _.first(resp?[@resourceName]) or resp
 
+  _getResourceArray: (key) ->
+    @related?[key] or @collection?._getResourceArray key
+
 class BaseCollection extends Chaplin.Collection
 
   _.extend @prototype,
@@ -99,5 +102,8 @@ class BaseCollection extends Chaplin.Collection
     else
 
       $.Deferred (d) -> d.resolve()
+
+  _getResourceArray: (key) ->
+    @related[key]
 
 module.exports = { BaseModel, BaseCollection }
