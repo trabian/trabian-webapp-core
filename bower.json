@@ -1,6 +1,6 @@
 {
   "name": "trabian-webapp-core",
-  "version": "0.0.0",
+  "version": "0.0.5",
   "authors": [
     "Matt Dean <matt@trabian.com>"
   ],
@@ -15,7 +15,7 @@
     "test"
   ],
   "dependencies": {
-    "chaplin": "~0.11.0",
+    "chaplin": "~0.11.1",
     "underscore": "~1.5.1",
     "backbone": "~1.0.0",
     "jquery": "~2.0.3",
