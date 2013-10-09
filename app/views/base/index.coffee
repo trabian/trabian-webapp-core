@@ -37,3 +37,12 @@ module.exports = class BaseView extends Chaplin.View
       @stickit @presenter, @presenterBindings
 
     @
+
+  delegateListener: (eventName, target, callback) ->
+
+    if target is 'presenter'
+      @listenTo @presenter, eventName, callback if @presenter
+    else
+      super
+
+    return
