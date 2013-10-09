@@ -122,3 +122,46 @@ describe 'The BaseView', ->
 
       data.name.should.equal 'Some Name'
       data.options.title.should.equal 'Some Other Title'
+
+  describe 'Presenter', ->
+
+    it 'should pass the presenter as a first-class attribute', ->
+
+      { Presenter } = require 'core/presenters/base'
+
+      presenter = new Presenter
+
+      view = new BaseView
+        autoRender: false
+        presenter: presenter
+
+      expect(view.presenter).to.be.ok
+
+      view.presenter.should.equal presenter
+
+    it 'should add stickit bindings if presenter and presenterBindings are available', ->
+
+      { Presenter } = require 'core/presenters/base'
+
+      presenter = new Presenter
+        expanded: false
+
+      class SampleView extends BaseView
+
+        template: -> ''
+
+        presenterBindings:
+          ':el':
+            observe: 'expanded'
+            update: ($el, val) -> $el.toggleClass 'expanded', val
+
+      view = new SampleView
+        presenter: presenter
+
+      view.$el.should.not.have.class 'expanded'
+
+      presenter.set
+        expanded: true
+
+      view.$el.should.have.class 'expanded'
+

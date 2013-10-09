@@ -9,4 +9,15 @@ module.exports = class BaseCollectionView extends Chaplin.CollectionView
   # Animation shouldn't be done via JS - it's too slow.
   useCssAnimation: true
 
+  optionNames: Chaplin.CollectionView::optionNames.concat ['presenter']
+
   getTemplateFunction: -> @template
+
+  render: ->
+
+    super
+
+    if @presenterBindings and @presenter
+      @stickit @presenter, @presenterBindings
+
+    @
