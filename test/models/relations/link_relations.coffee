@@ -1,8 +1,12 @@
 { BaseModel, BaseCollection } = require 'core/models/base'
 
+IdentityCache = require 'core/models/extensions/identity_cache'
+
 describe 'Relations links', ->
 
   beforeEach ->
+
+    IdentityCache.clear()
 
     class CommentCollection extends BaseCollection
 
@@ -214,151 +218,205 @@ describe 'Relations links', ->
 
         url.should.equal '/projects/3/todos'
 
-      it 'should load compound documents', ->
+      describe 'compound documents', ->
 
-        { ProjectCollection, TodoCollection } = @classes
+        it 'should load compound documents on fetch', (done) ->
 
-        projects = new ProjectCollection
+          { ProjectCollection, TodoCollection } = @classes
 
-        data =
-          links:
-            "projects.todos":
-              href: '/todos/{projects.todos}'
-              type: 'todos'
-          projects: [
-            id: 1
-            name: 'My Project'
+          projects = new ProjectCollection
+
+          data =
             links:
-              todos: ['2', '4']
-          ,
-            id: 2
-            name: 'My Other Project'
+              "projects.todos":
+                href: '/todos/{projects.todos}'
+                type: 'todos'
+            projects: [
+              id: 1
+              name: 'My Project'
+              links:
+                todos: ['2', '4']
+            ,
+              id: 2
+              name: 'My Other Project'
+              links:
+                todos: [1, 3, 4]
+            ]
+            todos: [
+              id: 1
+              title: 'Todo #1'
+            ,
+              id: 2
+              title: 'Todo #2'
+            ,
+              id: 3
+              title: 'Todo #3'
+            ,
+              id: 4
+              title: 'Todo #4'
+            ]
+
+          projects.set projects.parse data
+
+          todos = projects.get(1).get 'todos'
+
+          url = _.result todos, 'url'
+
+          url.should.equal '/todos/2,4'
+
+          todos.should.have.length 0
+
+          todos.fetch().done ->
+
+            todos.should.have.length 2
+            todos.at(1).get('title').should.equal 'Todo #4'
+
+            otherTodos = projects.get(2).get 'todos'
+
+            url = _.result otherTodos, 'url'
+
+            url.should.equal '/todos/1,3,4'
+
+            otherTodos.fetch().done ->
+
+              otherTodos.should.have.length 3
+              otherTodos.at(1).get('title').should.equal 'Todo #3'
+
+              done()
+
+        it 'should load compound documents using the resourceName of the collection', (done) ->
+
+          { ProjectCollection, TodoCollection } = @classes
+
+          projects = new ProjectCollection
+
+          TodoCollection::resourceName = 'tasks'
+
+          data =
             links:
-              todos: [1, 3, 4]
-          ]
-          todos: [
-            id: 1
-            title: 'Todo #1'
-          ,
-            id: 2
-            title: 'Todo #2'
-          ,
-            id: 3
-            title: 'Todo #3'
-          ,
-            id: 4
-            title: 'Todo #4'
-          ]
+              "projects.todos":
+                href: '/todos/{projects.todos}'
+                type: 'todos'
+            projects: [
+              id: 1
+              name: 'My Project'
+              links:
+                todos: ['2', '4']
+            ,
+              id: 2
+              name: 'My Other Project'
+              links:
+                todos: [1, 3, 4]
+            ]
+            tasks: [
+              id: 1
+              title: 'Todo #1'
+            ,
+              id: 2
+              title: 'Todo #2'
+            ,
+              id: 3
+              title: 'Todo #3'
+            ,
+              id: 4
+              title: 'Todo #4'
+            ]
 
-        projects.set projects.parse data
+          projects.set projects.parse data
 
-        todos = projects.get(1).get 'todos'
+          todos = projects.get(1).get 'todos'
 
-        url = _.result todos, 'url'
+          url = _.result todos, 'url'
 
-        url.should.equal '/todos/2,4'
+          url.should.equal '/todos/2,4'
 
-        todos.should.have.length 2
-        todos.at(1).get('title').should.equal 'Todo #4'
+          todos.fetch().done ->
 
-        otherTodos = projects.get(2).get 'todos'
+            todos.should.have.length 2
 
-        url = _.result otherTodos, 'url'
+            done()
 
-        url.should.equal '/todos/1,3,4'
+        describe '(self-referential)', ->
 
-        otherTodos.should.have.length 3
-        otherTodos.at(1).get('title').should.equal 'Todo #3'
+          beforeEach ->
 
-      it 'should load compound documents using the resourceName of the collection', ->
+            { Project, ProjectCollection, TodoCollection } = @classes
 
-        { ProjectCollection, TodoCollection } = @classes
+            Project::relations.push
+              type: 'HasMany'
+              key: 'children'
+              collectionType: ProjectCollection
 
-        projects = new ProjectCollection
+            @projects = new ProjectCollection
 
-        TodoCollection::resourceName = 'tasks'
+            data =
+              links:
+                "projects.children": '/projects/{projects.id}/children'
+              projects: [
+                id: 1
+                name: 'My Project'
+                links:
+                  children: [2, 3]
+              ,
+                id: 2
+                name: 'Project #2'
+              ,
+                id: 3
+                name: 'Project #3'
+                links:
+                  children: [4]
+              ,
+                id: 4
+                name: 'Project #4'
+              ]
 
-        data =
-          links:
-            "projects.todos":
-              href: '/todos/{projects.todos}'
-              type: 'todos'
-          projects: [
-            id: 1
-            name: 'My Project'
-            links:
-              todos: ['2', '4']
-          ,
-            id: 2
-            name: 'My Other Project'
-            links:
-              todos: [1, 3, 4]
-          ]
-          tasks: [
-            id: 1
-            title: 'Todo #1'
-          ,
-            id: 2
-            title: 'Todo #2'
-          ,
-            id: 3
-            title: 'Todo #3'
-          ,
-            id: 4
-            title: 'Todo #4'
-          ]
+            @projects.set @projects.parse data
 
-        projects.set projects.parse data
+          it 'should support first-level children', (done) ->
 
-        todos = projects.get(1).get 'todos'
+            children = @projects.get(1).get 'children'
 
-        url = _.result todos, 'url'
+            url = _.result children, 'url'
 
-        url.should.equal '/todos/2,4'
+            url.should.equal '/projects/1/children'
 
-        todos.should.have.length 2
+            children.fetch().done ->
 
-      it 'should support self-referential compound documents', ->
+              children.should.have.length 2
 
-        { Project, ProjectCollection, TodoCollection } = @classes
+              done()
 
-        Project::relations.push
-          type: 'HasMany'
-          key: 'children'
-          collectionType: ProjectCollection
+          it 'should use the same model as in the parent collection', (done) ->
 
-        projects = new ProjectCollection
+            children = @projects.get(1).get 'children'
 
-        TodoCollection::resourceName = 'tasks'
+            children.fetch().done =>
 
-        data =
-          links:
-            "projects.children": '/projects/{projects.id}/children'
-          projects: [
-            id: 1
-            name: 'My Project'
-            links:
-              children: [2, 3]
-          ,
-            id: 2
-            name: 'Project #2'
-          ,
-            id: 3
-            name: 'Project #3'
-          ,
-            id: 4
-            name: 'Project #4'
-          ]
+              children.get(2).should.equal @projects.get 2
 
-        projects.set projects.parse data
+              done()
 
-        children = projects.get(1).get 'children'
+          describe 'nested children', ->
 
-        url = _.result children, 'url'
+            beforeEach (done) ->
 
-        url.should.equal '/projects/1/children'
+              children = @projects.get(1).get 'children'
 
-        children.should.have.length 2
+              children.fetch().done =>
+
+                @child = children.get 3
+
+                done()
+
+            it 'should support nested children', (done) ->
+
+              grandChildren = @child.get 'children'
+
+              grandChildren.fetch().done ->
+
+                grandChildren.should.have.length 1
+
+                done()
 
   describe 'HasOne relationships', ->
 
