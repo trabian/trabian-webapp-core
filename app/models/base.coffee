@@ -85,10 +85,19 @@ class BaseCollection extends Chaplin.Collection
 
     resp[resourceName] or resp
 
-  fetch: ->
+  fetch: (options = {}) ->
 
-    @beginSync()
+    _(options).defaults
+      force: false
 
-    super.done => @finishSync()
+    if options.force or not @isSynced()
+
+      @beginSync()
+
+      super.done => @finishSync()
+
+    else
+
+      $.Deferred (d) -> d.resolve()
 
 module.exports = { BaseModel, BaseCollection }
