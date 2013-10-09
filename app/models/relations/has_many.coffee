@@ -24,13 +24,9 @@ updateCollection = (key, collectionType) ->
 
     else
 
-      unless value
-        value = @loadRelatedCollection key
-
       collection = new collectionType value
 
-      if related = @collection?.related
-        collection.related = related
+      overrideFetch.call this, collection, key
 
       buildCollectionUrl.call this, collection, key
 
@@ -54,6 +50,37 @@ buildCollectionUrl = (collection, key) ->
         originalUrl.apply collection
       else
         originalUrl
+
+# Override the default collection.fetch() method to first search for related
+# objects returned as part of a previous fetch from the parent model.
+overrideFetch = (collection, key) ->
+
+  model = this
+
+  _fetch = collection.fetch
+
+  collection.fetch = (options = {}) ->
+
+    _(options).defaults
+      force: false
+
+    if options.force or not (objects = model.loadRelatedObjects key)
+
+      _fetch.apply this, arguments
+
+    else
+
+      # `fetch` should return a deferred, even if it is immediately resolved
+      # (as it is in this case.)
+      $.Deferred (d) =>
+
+        @beginSync()
+
+        @set objects
+
+        @finishSync()
+
+        d.resolve()
 
 module.exports = { build }
 

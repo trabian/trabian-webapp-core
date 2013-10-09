@@ -36,7 +36,8 @@ module.exports =
   #     name: 'Category 3'
   #   ]
   #
-  loadRelatedCollection: (key) ->
+  # Returns an array
+  loadRelatedObjects: (key) ->
 
     resourceName = key
 
