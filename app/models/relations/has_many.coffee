@@ -36,7 +36,7 @@ updateCollection = (key, collectionType) ->
 
       @set key, collection, silent: true
 
-# Overwrite the default collection.url() method to look for the link at `key`.
+# Override the default collection.url() method to look for the link at `key`.
 # This needs to happen at the time the url is requested as the link may not
 # have been available when the association was first created.
 buildCollectionUrl = (collection, key) ->
