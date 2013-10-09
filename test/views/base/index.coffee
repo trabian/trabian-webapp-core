@@ -165,3 +165,25 @@ describe 'The BaseView', ->
 
       view.$el.should.have.class 'expanded'
 
+    it 'should add presenter support to the view listeners', ->
+
+      { Presenter } = require 'core/presenters/base'
+
+      presenter = new Presenter
+
+      class SampleView extends BaseView
+
+        template: -> ''
+
+        listen:
+          'someEvent presenter': ->
+            @eventTriggered = true
+
+      view = new SampleView
+        presenter: presenter
+
+      expect(view.eventTriggered).to.not.be.true
+
+      presenter.trigger 'someEvent'
+
+      expect(view.eventTriggered).to.be.true
