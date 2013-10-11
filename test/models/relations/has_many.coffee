@@ -8,7 +8,11 @@ describe 'Relations (Has Many)', ->
 
     IdentityCache.clear()
 
+    class Todo extends BaseModel
+
     class TodoCollection extends BaseCollection
+
+      model: Todo
 
     class Project extends BaseModel
 
@@ -16,6 +20,8 @@ describe 'Relations (Has Many)', ->
         type: 'HasMany'
         key: 'todos'
         collectionType: TodoCollection
+        reverseRelation:
+          key: 'project'
       ]
 
     @classes = { Project, TodoCollection }
@@ -92,3 +98,43 @@ describe 'Relations (Has Many)', ->
     todos.should.have.length 0
 
     project.get('todos').should.equal todos
+
+  it 'should pass the reverseRelation to the collection', ->
+
+    { Project, TodoCollection } = @classes
+
+    project = new Project
+      todos: new TodoCollection [
+        id: 1
+        name: 'My Todo'
+      ,
+        id: 2
+        name: 'My Other Todo'
+      ,
+        id: 3
+        name: 'My Third Todo'
+      ]
+
+    todos = project.get 'todos'
+
+    todos.project.should.equal project
+
+    todo = todos.get 1
+
+    todo.collection.project.should.equal project
+
+    otherProject = new Project
+      todos: [
+        id: 1
+        name: 'My Todo'
+      ,
+        id: 2
+        name: 'My Other Todo'
+      ,
+        id: 3
+        name: 'My Third Todo'
+      ]
+
+    todos = otherProject.get 'todos'
+
+    todos.project.should.equal otherProject
