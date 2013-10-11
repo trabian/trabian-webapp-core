@@ -64,7 +64,9 @@ overrideFetch = (collection, key) ->
     _(options).defaults
       force: false
 
-    if options.force or not (objects = model.loadRelatedObjects key)
+    if options.force or
+        @isSynced() or
+        not (objects = model.loadRelatedObjects key)
 
       _fetch.apply this, arguments
 
