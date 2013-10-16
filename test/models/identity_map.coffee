@@ -38,6 +38,20 @@ describe 'Identity map', ->
 
       project.should.equal sameProject
 
+    it 'should handle adding an existing model', ->
+
+      { Project, ProjectCollection } = @classes
+
+      projectCollection = new ProjectCollection
+
+      project = new Project
+
+      projectCollection.should.have.length 0
+
+      projectCollection.add project
+
+      projectCollection.should.have.length 1
+
   describe 'clear', ->
 
     it 'should be able to clear the cache', ->

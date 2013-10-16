@@ -6,7 +6,7 @@ module.exports =
 
     if attrs instanceof Backbone.Model
       attrs.collection ?= this
-      return
+      return attrs
 
     options.collection = this
 
