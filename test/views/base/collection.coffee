@@ -1,5 +1,6 @@
 Chaplin = require 'chaplin'
 
+BaseView = require 'core/views/base'
 BaseCollectionView = require 'core/views/base/collection'
 
 describe 'BaseCollectionView', ->
@@ -54,3 +55,141 @@ describe 'BaseCollectionView', ->
 
       view.$el.should.have.class 'expanded'
 
+  describe 'hideIfEmpty', ->
+
+    beforeEach ->
+
+      class ItemView extends BaseView
+
+        render: ->
+
+          @$el.html @id
+
+          this
+
+      class SampleView extends BaseCollectionView
+
+        itemView: ItemView
+
+      class HiddenSampleView extends BaseCollectionView
+
+        hideIfEmpty: true
+
+        itemView: ItemView
+
+      @classes = { SampleView, HiddenSampleView }
+
+    it 'should pass the "hideIfEmpty" property to the view', ->
+
+      { SampleView } = @classes
+
+      collection = new Chaplin.Collection
+
+      view = new SampleView
+        collection: collection
+        hideIfEmpty: true
+
+      view.options.hideIfEmpty.should.be.true
+
+    it 'should be able to hide the view if the collection is empty', ->
+
+      { SampleView, HiddenSampleView } = @classes
+
+      collection = new Chaplin.Collection
+
+      view = new SampleView
+        collection: collection
+
+      otherView = new HiddenSampleView
+        collection: collection
+
+      hiddenInOptionsView = new SampleView
+        collection: collection
+        hideIfEmpty: true
+
+      view.$el.should.not.have.css 'display', 'none'
+
+      otherView.$el.should.have.css 'display', 'none'
+
+      hiddenInOptionsView.$el.should.have.css 'display', 'none'
+
+    it 'should be able to hide the view if the collection is empty', ->
+
+      { SampleView, HiddenSampleView } = @classes
+
+      collection = new Chaplin.Collection
+
+      otherView = new HiddenSampleView
+        collection: collection
+
+      otherView.$el.should.have.css 'display', 'none'
+
+    it 'should be visible if the collection is populated', ->
+
+      { SampleView, HiddenSampleView } = @classes
+
+      collection = new Chaplin.Collection [
+        id: 1
+      ]
+
+      otherView = new HiddenSampleView
+        collection: collection
+
+      otherView.$el.should.not.have.css 'display', 'none'
+
+    it 'should be visible if the collection is populated later', ->
+
+      { SampleView, HiddenSampleView } = @classes
+
+      collection = new Chaplin.Collection
+
+      otherView = new HiddenSampleView
+        collection: collection
+
+      otherView.$el.should.have.css 'display', 'none'
+
+      collection.add [
+        id: 1
+      ]
+
+      otherView.$el.should.not.have.css 'display', 'none'
+
+    it 'should be hidden if the collection is empty later', ->
+
+      { SampleView, HiddenSampleView } = @classes
+
+      collection = new Chaplin.Collection [
+        id: 1
+      ]
+
+      otherView = new HiddenSampleView
+        collection: collection
+
+      otherView.$el.should.not.have.css 'display', 'none'
+
+      collection.remove 1
+
+      otherView.$el.should.have.css 'display', 'none'
+
+    it 'should be hidden if the collection is reset', ->
+
+      { SampleView, HiddenSampleView } = @classes
+
+      collection = new Chaplin.Collection [
+        id: 1
+      ]
+
+      otherView = new HiddenSampleView
+        collection: collection
+
+      otherView.$el.should.not.have.css 'display', 'none'
+
+      collection.reset()
+
+      otherView.$el.should.have.css 'display', 'none'
+
+      collection.reset [
+        id: 1
+      ]
+
+      otherView.$el.should.not.have.css 'display', 'none'
