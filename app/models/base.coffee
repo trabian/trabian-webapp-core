@@ -3,16 +3,32 @@ Chaplin = require 'chaplin'
 EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
+IdentityMapExtensions = require './extensions/identity_map'
 
 class BaseModel extends Chaplin.Model
 
-  _.extend @prototype, EventExtensions, RelationExtensions, LinkExtensions
+  _.extend @prototype,
+    EventExtensions,
+    RelationExtensions,
+    LinkExtensions,
+    Chaplin.SyncMachine
 
   initialize: ->
 
     super
 
+    _(this).extend $.Deferred()
+
     @buildRelations()
+
+    # Resolve the model the first time it's synced (via finishSync())
+    @synced @resolve
+
+  fetch: ->
+
+    @beginSync()
+
+    super.done => @finishSync()
 
   # For individual model requests the data will be returned as the only
   # element of an array at `resourceName`. For example, if resourceName is
@@ -31,9 +47,24 @@ class BaseModel extends Chaplin.Model
 
     _.first(resp?[@resourceName]) or resp
 
+  _getResourceArray: (key) ->
+    @related?[key] or @collection?._getResourceArray key
+
 class BaseCollection extends Chaplin.Collection
 
-  _.extend @prototype, EventExtensions
+  _.extend @prototype,
+    EventExtensions,
+    IdentityMapExtensions,
+    Chaplin.SyncMachine
+
+  initialize: ->
+
+    super
+
+    _(this).extend $.Deferred()
+
+    # Resolve the collection the first time it's synced (via finishSync())
+    @synced @resolve
 
   resourceName: ->
     _.result @model.prototype, 'resourceName'
@@ -52,9 +83,27 @@ class BaseCollection extends Chaplin.Collection
       if links = resp.links
         @links = links
 
-      for key, value of resp when key not in ['links', resourceName]
+      for key, value of resp when key isnt 'links'
         (@related or= {})[key] = value
 
     resp[resourceName] or resp
+
+  fetch: (options = {}) ->
+
+    _(options).defaults
+      force: false
+
+    if options.force or not @isSynced()
+
+      @beginSync()
+
+      super.done => @finishSync()
+
+    else
+
+      $.Deferred (d) -> d.resolve()
+
+  _getResourceArray: (key) ->
+    @related[key]
 
 module.exports = { BaseModel, BaseCollection }

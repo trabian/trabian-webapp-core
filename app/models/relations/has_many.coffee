@@ -1,17 +1,21 @@
 build = (relation) ->
 
+  @onAndTrigger "change:#{relation.key}", ->
+    updateCollection.call this, relation
+
+updateCollection = (relation) ->
+
   { key, collectionType } = relation
-
-  @onAndTrigger "change:#{key}", ->
-    updateCollection.call this, key, collectionType
-
-updateCollection = (key, collectionType) ->
 
   existingCollection = @previous key
 
   value = @get key
 
-  unless value and value instanceof collectionType
+  if value and value instanceof collectionType
+
+    addReverseRelation.call this, value, relation
+
+  else
 
     if existingCollection and existingCollection instanceof collectionType
 
@@ -24,16 +28,22 @@ updateCollection = (key, collectionType) ->
 
     else
 
-      unless value
-        value = @loadRelatedCollection key
-
       collection = new collectionType value
+
+      addReverseRelation.call this, collection, relation
+
+      overrideFetch.call this, collection, key
 
       buildCollectionUrl.call this, collection, key
 
       @set key, collection, silent: true
 
-# Overwrite the default collection.url() method to look for the link at `key`.
+addReverseRelation = (collection, relation) ->
+
+  if reverse = relation.reverseRelation
+    collection[reverse.key] = this
+
+# Override the default collection.url() method to look for the link at `key`.
 # This needs to happen at the time the url is requested as the link may not
 # have been available when the association was first created.
 buildCollectionUrl = (collection, key) ->
@@ -51,6 +61,39 @@ buildCollectionUrl = (collection, key) ->
         originalUrl.apply collection
       else
         originalUrl
+
+# Override the default collection.fetch() method to first search for related
+# objects returned as part of a previous fetch from the parent model.
+overrideFetch = (collection, key) ->
+
+  model = this
+
+  _fetch = collection.fetch
+
+  collection.fetch = (options = {}) ->
+
+    _(options).defaults
+      force: false
+
+    if options.force or
+        @isSynced() or
+        not (objects = model.loadRelatedObjects key)
+
+      _fetch.apply this, arguments
+
+    else
+
+      # `fetch` should return a deferred, even if it is immediately resolved
+      # (as it is in this case.)
+      $.Deferred (d) =>
+
+        @beginSync()
+
+        @set objects
+
+        @finishSync()
+
+        d.resolve()
 
 module.exports = { build }
 

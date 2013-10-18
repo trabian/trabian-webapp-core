@@ -166,6 +166,49 @@ describe 'Base collection', ->
 
       (new ProjectCollection).url().should.equal '/projects'
 
+  describe 'fetch', ->
+
+    beforeEach ->
+
+      class Project extends BaseModel
+
+        urlRoot: '/projects'
+
+      class ProjectCollection extends BaseCollection
+
+        model: Project
+
+      @projects = new ProjectCollection
+
+      @classes = { Project, ProjectCollection }
+
+    it 'should hit the backend by default', (done) ->
+
+      @projects.sync = ->
+        done()
+
+      @projects.fetch()
+
+    describe 'synced collection', ->
+
+      beforeEach ->
+
+        @projects.beginSync()
+        @projects.finishSync()
+
+      it 'should not hit the backend if the collection is already synced', (done) ->
+
+        @projects.fetch().done ->
+          done()
+
+      it 'should hit the backend if forced to do so', (done) ->
+
+        @projects.sync = ->
+          done()
+
+        @projects.fetch
+          force: true
+
   describe 'event extensions', ->
 
     it 'should support onAndTrigger', (done) ->

@@ -22,28 +22,28 @@ module.exports = class FakeServer
 
     route = utils.pathRegexp route, keys
 
-    wrappedResponse = if _.isFunction response
+    # Wrap the function-based version of fakeServer's respondWith
+    wrappedResponse = (req, matches...) =>
 
-      # Wrap the function-based version of fakeServer's respondWith
-      (req, matches...) =>
+      originalRespond = req.respond
 
-        originalRespond = req.respond
+      req.respond = (responseArgs...) =>
 
-        req.respond = (responseArgs...) =>
+        if responseArgs.length is 1
+          responseArgs = @_buildDefaultResponse arguments[0]
 
-          if responseArgs.length is 1
-            responseArgs = @_buildDefaultResponse arguments[0]
+        delay = _.result @options, 'delay'
 
-          delay = _.result @options, 'delay'
+        if delay
 
-          if delay
-
-            setTimeout ->
-              originalRespond.apply req, responseArgs
-            , delay
-
-          else
+          setTimeout ->
             originalRespond.apply req, responseArgs
+          , delay
+
+        else
+          originalRespond.apply req, responseArgs
+
+      if _.isFunction response
 
         if useRegExpFormat
 
@@ -54,9 +54,9 @@ module.exports = class FakeServer
           params = @_buildParams keys, matches, req
           response req, params
 
-    else
+      else
 
-      @_buildDefaultResponse response
+        req.respond response
 
     @server.respondWith method, route, wrappedResponse
 
@@ -79,7 +79,7 @@ module.exports = class FakeServer
     [path, query] = req.url.split '?'
 
     params = if query
-      utils.parseQueryString query
+      Chaplin.utils.queryParams.parse query
     else
       {}
 
