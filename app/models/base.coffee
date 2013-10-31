@@ -53,7 +53,8 @@ class BaseModel extends Chaplin.Model
   # Add the 'method' to the options so it can be passed to toJSON
   sync: (method, model, options = {}) ->
 
-    _(options).defaults { method }
+    _(options).defaults
+      syncMethod: method
 
     super method, model, options
 

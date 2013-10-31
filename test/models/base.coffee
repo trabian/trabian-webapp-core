@@ -85,7 +85,7 @@ describe 'Base model', ->
 
       options = Backbone.sync.getCall(0).args[2]
 
-      options.method.should.equal 'create'
+      options.syncMethod.should.equal 'create'
 
 describe 'Base collection', ->
 
