@@ -50,18 +50,3 @@ describe 'Formats', ->
 
         for original, expected of cases
           formats.text.parameterize(original, '_').should.equal expected
-
-      #   formats.text.parameterize('this   has    spaces').should.equal 'this-has-spaces'
-
-      # # it 'should convert to lowercase', ->
-
-      # #   formats.text.parameterize('Some Upper Case Name').should.equal 'some-upper-case-name'
-
-      # it 'should convert multiple dashes to a single one', ->
-
-      #   formats.text.parameterize('this - has--dashes').should.equal 'this-has-dashes'
-
-      # it 'should keep underscores', ->
-
-      #   formats.text.parameterize('this_has_underscores').should.equal 'this_has_underscores'
-
