@@ -65,6 +65,28 @@ describe 'Base model', ->
         this.should.equal project
         done()
 
+  describe 'sync', ->
+
+    beforeEach ->
+      sinon.spy Backbone, 'sync'
+
+    afterEach ->
+      Backbone.sync.restore()
+
+    it 'should pass add the method to the "options" object', ->
+
+      class Project extends BaseModel
+
+        url: '/test'
+
+      project = new Project
+
+      project.sync 'create', project, {}
+
+      options = Backbone.sync.getCall(0).args[2]
+
+      options.method.should.equal 'create'
+
 describe 'Base collection', ->
 
   describe 'parse', ->

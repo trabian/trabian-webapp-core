@@ -50,6 +50,13 @@ class BaseModel extends Chaplin.Model
   _getResourceArray: (key) ->
     @related?[key] or @collection?._getResourceArray key
 
+  # Add the 'method' to the options so it can be passed to toJSON
+  sync: (method, model, options = {}) ->
+
+    _(options).defaults { method }
+
+    super method, model, options
+
 class BaseCollection extends Chaplin.Collection
 
   _.extend @prototype,
