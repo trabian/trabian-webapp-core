@@ -75,8 +75,6 @@ describe 'BaseApplication', ->
 
     describe 'LoadingView', ->
 
-      beforeEach =>
-
       it 'should create a LoadingView', ->
 
         promise = new $.Deferred()
