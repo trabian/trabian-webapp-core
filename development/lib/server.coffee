@@ -63,6 +63,9 @@ module.exports = class FakeServer
   get: (url, response) ->
     @buildResponse 'GET', url, response
 
+  put: (url, response) ->
+    @buildResponse 'PUT', url, response
+
   post: (url, response) ->
     @buildResponse 'POST', url, response
 
