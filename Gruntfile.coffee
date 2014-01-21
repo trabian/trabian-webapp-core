@@ -21,11 +21,18 @@ module.exports = (grunt) ->
       # needed. If any other extensions are used, add them in the 'files'
       # expression below.
       browserify:
-        files: ['app/**/*.{coffee,js}', 'development/**/*.{coffee,js}']
+        files: [
+          'app/**/*.{coffee,js}'
+          'development/**/*.{coffee,js}'
+          '!app/**/__tests__/**'
+        ]
         tasks: ['coffeelint:app', 'browserify:app', 'karma:unit:run']
 
       karma:
-        files: ['test/**/*.coffee']
+        files: [
+          'test/**/*.coffee'
+          'app/**/__tests__/**'
+        ]
         tasks: ['coffeelint:test', 'karma:unit:run']
 
     bower:
@@ -87,7 +94,10 @@ module.exports = (grunt) ->
           # the app would need to be relative.
           aliasMappings: [
             cwd: 'app'
-            src: ['**/*.{coffee,js}']
+            src: [
+              '**/*.{coffee,js}'
+              '!app/**/__tests__/**'
+            ]
             dest: 'core'
             rename: (src, dest) ->
 
@@ -98,7 +108,10 @@ module.exports = (grunt) ->
               "core/#{dest}"
           ,
             cwd: 'development'
-            src: ['**/*.{coffee,js,jade}']
+            src: [
+              '**/*.{coffee,js,jade}'
+              '!app/**/__tests__/**'
+            ]
             dest: 'core/dev'
             rename: (src, dest) ->
 
@@ -110,11 +123,15 @@ module.exports = (grunt) ->
           ]
 
     coffeelint:
-      app: ['app/**/*.coffee']
+      app: [
+        'app/**/*.coffee'
+        '!app/**/__tests__/**'
+      ]
       test:
         files:
           src: [
             'test/**/*.coffee'
+            'app/**/__tests__/**/*.coffee'
           ]
         options:
           max_line_length:
@@ -125,6 +142,7 @@ module.exports = (grunt) ->
         frameworks: ['mocha', 'chai', 'chai-jquery', 'sinon-chai']
         preprocessors:
           'test/**/*.coffee': ['coffee']
+          'app/**/__tests__/**/*.coffee': ['coffee']
         reporters: ['spec', 'osx']
         autoWatch: false
         browsers: ['PhantomJS']
@@ -133,10 +151,13 @@ module.exports = (grunt) ->
             bare: true
             sourceMap: false
         files: [
+          'test/helpers/phantomjs-shim.js'
+          'test/helpers/react-with-tests.js'
           '.tmp/lib.js'
           '.tmp/app.js'
           'test/index.coffee'
           'test/**/*.coffee'
+          'app/**/__tests__/**/*.coffee'
         ]
       unit:
         background: true
