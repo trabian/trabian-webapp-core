@@ -5,6 +5,13 @@ RelationExtensions = require './relations'
 LinkExtensions = require './links'
 IdentityMapExtensions = require './extensions/identity_map'
 
+require 'backbone-validation'
+
+Backbone.Validation.configure
+  forceUpdate: true
+
+_.extend Backbone.Model.prototype, Backbone.Validation.mixin
+
 class BaseModel extends Chaplin.Model
 
   _.extend @prototype,
