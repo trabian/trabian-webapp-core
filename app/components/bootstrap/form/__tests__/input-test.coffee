@@ -1,6 +1,6 @@
 Input = require 'core/components/bootstrap/form/input'
 
-describe.only 'Input component', ->
+describe 'Input component', ->
 
   it 'should be a component', ->
 
