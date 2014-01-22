@@ -89,7 +89,7 @@ describe 'Base model', ->
 
   describe 'validation', ->
 
-    it 'should support validation', (done) ->
+    it 'should support validation', ->
 
       class Project extends BaseModel
 
@@ -105,8 +105,6 @@ describe 'Base model', ->
         name: 'a name'
 
       project.isValid(true).should.be.true
-
-      done()
 
 describe 'Base collection', ->
 
