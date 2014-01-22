@@ -101,11 +101,16 @@ module.exports = (grunt) ->
             dest: 'core'
             rename: (src, dest) ->
 
-              # Rename index.coffee files so they can be referenced externally
-              # without the index.coffee. For example, app/views/hello/index
-              # will be exposed as app/views/hello.
-              dest = dest.replace /\/index\.(\w*)$/, '.$1'
-              "core/#{dest}"
+              if dest is 'index.coffee'
+                'core.coffee'
+              else
+
+                # Rename index.coffee files so they can be referenced externally
+                # without the index.coffee. For example, app/views/hello/index
+                # will be exposed as app/views/hello.
+                dest = dest.replace /\/index\.(\w*)$/, '.$1'
+                "core/#{dest}"
+
           ,
             cwd: 'development'
             src: [
