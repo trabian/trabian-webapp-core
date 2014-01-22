@@ -52,6 +52,7 @@ module.exports = (grunt) ->
             'bower_components/backbone.stickit/backbone.stickit.js:stickit'
             'bower_components/jquery/jquery.js:jquery'
             'bower_components/uritemplates/bin/uritemplate.js:uritemplate'
+            'bower_components/backbone.validation/dist/backbone-validation.js:backbone-validation'
           ]
 
       app:
@@ -59,7 +60,7 @@ module.exports = (grunt) ->
         dest: '.tmp/app.js'
         options:
           debug: true
-          external: ['backbone', 'underscore', 'jquery', 'stickit', 'uritemplate']
+          external: ['backbone', 'underscore', 'jquery', 'stickit', 'uritemplate', 'backbone-validation']
 
           # Chaplin needs the ability to reference modules within the app, so
           # it needs to be included in the same .js file as the app. For
@@ -164,6 +165,7 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'test:watch', [
+    'browserify'
     'karma:unit'
     'watch'
   ]

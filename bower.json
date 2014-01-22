@@ -21,6 +21,7 @@
     "jquery": "~2.0.3",
     "backbone.stickit": "master",
     "uritemplates": "fxa/uritemplate-js",
-    "sinon": "http://sinonjs.org/releases/sinon-1.7.1.js"
+    "sinon": "http://sinonjs.org/releases/sinon-1.7.1.js",
+    "backbone.validation": "~0.7.1"
   }
 }

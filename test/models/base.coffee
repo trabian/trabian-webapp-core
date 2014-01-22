@@ -87,6 +87,27 @@ describe 'Base model', ->
 
       options.syncMethod.should.equal 'create'
 
+  describe 'validation', ->
+
+    it 'should support validation', (done) ->
+
+      class Project extends BaseModel
+
+        validation:
+          name:
+            required: true
+
+      project = new Project
+
+      project.isValid(true).should.be.false
+
+      project.set
+        name: 'a name'
+
+      project.isValid(true).should.be.true
+
+      done()
+
 describe 'Base collection', ->
 
   describe 'parse', ->
