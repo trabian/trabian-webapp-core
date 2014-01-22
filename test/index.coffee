@@ -1,9 +1,4 @@
-_ = require 'underscore'
-$ = require 'jquery'
-
-Backbone = require 'backbone'
-
-Backbone.$ = $
+require('core').init()
 
 require 'stickit'
 
