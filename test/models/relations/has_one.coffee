@@ -12,6 +12,11 @@ describe 'Relations (HasOne)', ->
         type: 'HasOne'
         key: 'owner'
         relatedModel: Person
+      ,
+        type: 'HasOne'
+        key: 'address'
+        linkKey: 'location'
+        relatedModel: Person
       ]
 
     @classes = { Project, Person }
@@ -37,6 +42,20 @@ describe 'Relations (HasOne)', ->
     expect(owner).to.be.defined
 
     _.result(owner, 'url').should.equal '/people/1'
+
+  it 'should use the linkKey instead of the key when provided', ->
+
+    { Project } = @classes
+
+    project = new Project
+      links:
+        location: '/locations/1'
+
+    address = project.get 'address'
+
+    expect(address).to.be.defined
+
+    _.result(address, 'url').should.equal '/locations/1'
 
   it 'should create the model if the attributes are passed on creation', ->
 

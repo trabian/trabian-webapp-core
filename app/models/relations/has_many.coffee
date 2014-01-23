@@ -5,7 +5,9 @@ build = (relation) ->
 
 updateCollection = (relation) ->
 
-  { key, collectionType } = relation
+  { linkKey, key, collectionType } = relation
+
+  linkKey ?= key
 
   existingCollection = @previous key
 
@@ -34,7 +36,7 @@ updateCollection = (relation) ->
 
       overrideFetch.call this, collection, key
 
-      buildCollectionUrl.call this, collection, key
+      buildCollectionUrl.call this, collection, linkKey
 
       @set key, collection, silent: true
 
@@ -46,13 +48,13 @@ addReverseRelation = (collection, relation) ->
 # Override the default collection.url() method to look for the link at `key`.
 # This needs to happen at the time the url is requested as the link may not
 # have been available when the association was first created.
-buildCollectionUrl = (collection, key) ->
+buildCollectionUrl = (collection, linkKey) ->
 
   originalUrl = collection.url
 
   collection.url = =>
 
-    if url = @findLink key
+    if url = @findLink linkKey
       url
 
     else

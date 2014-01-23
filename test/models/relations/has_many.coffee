@@ -14,6 +14,12 @@ describe 'Relations (Has Many)', ->
 
       model: Todo
 
+    class Person extends BaseModel
+
+    class PersonCollection extends BaseCollection
+
+      model: Person
+
     class Project extends BaseModel
 
       relations: [
@@ -22,6 +28,11 @@ describe 'Relations (Has Many)', ->
         collectionType: TodoCollection
         reverseRelation:
           key: 'project'
+      ,
+        type: 'HasMany'
+        key: 'participants'
+        linkKey: 'people'
+        collectionType: PersonCollection
       ]
 
     @classes = { Project, TodoCollection }
@@ -49,6 +60,20 @@ describe 'Relations (Has Many)', ->
 
     project.get('todos').should.be.an.instanceOf TodoCollection
     project.get('todos').should.have.length 2
+
+  it 'should use the linkKey instead of the key when provided', ->
+
+    { Project } = @classes
+
+    project = new Project
+      links:
+        people: '/projects/1/people'
+
+    participants = project.get 'participants'
+
+    participants.should.be.ok
+
+    _.result(participants, 'url').should.equal '/projects/1/people'
 
   it 'should use the collection directly if provided as the CollectionType', ->
 

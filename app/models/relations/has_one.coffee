@@ -1,6 +1,8 @@
 build = (relation) ->
 
-  { key, relatedModel } = relation
+  { key, relatedModel, linkKey } = relation
+
+  linkKey ?= key
 
   @onAndTrigger "change:#{key}", ->
 
@@ -11,12 +13,12 @@ build = (relation) ->
 
   @onAndTrigger 'change:links', ->
 
-    if link = @get('links')?[key]
+    if link = @getLink linkKey
 
       # `findLink` is dependent on dynamic data, so it needs to be a method.
       # `No need to fallback to the original `url` method since we wouldn't
       # `reach this point unless we'd already established that a link exists.
-      url = => @findLink key
+      url = => @findLink linkKey
 
       if model = @get key
 
