@@ -60,10 +60,13 @@ module.exports =
 
     templateVars
 
+  getLink: (key) ->
+    @get('links')?[key]
+
   findLink: (key) ->
 
     # Look for links as a direct decendent of model
-    modelLinks = @get('links')?[key]
+    modelLinks = @getLink key
 
     if template = @_findTemplate key
 

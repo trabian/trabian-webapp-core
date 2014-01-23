@@ -46,7 +46,7 @@ module.exports =
       if collectionType = relationship.collectionType
         resourceName = _.result collectionType.prototype, 'resourceName'
 
-    if modelLinks = @get('links')?[key]
+    if modelLinks = @getLink key
 
       # Convert ['1', '2'] to [1, 2]
       modelLinks = _.map modelLinks, (id) ->
