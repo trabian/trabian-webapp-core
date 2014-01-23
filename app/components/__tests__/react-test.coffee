@@ -1,4 +1,4 @@
-describe.only 'React.createBackboneClass', ->
+describe 'React.createBackboneClass', ->
 
   it 'should add the Backbone mixin', ->
 
