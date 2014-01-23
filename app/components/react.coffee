@@ -2,6 +2,8 @@ module.exports =
 
   init: ->
 
+    return unless React?
+
     BackboneMixin = require 'core/components/mixins/backbone'
 
     React.createBackboneClass = (spec) ->
