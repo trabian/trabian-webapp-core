@@ -4,6 +4,7 @@ EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
 IdentityMapExtensions = require './extensions/identity_map'
+AllowOnlyOneExtensions = require './extensions/allow-only-one'
 
 require 'backbone-validation'
 
@@ -69,6 +70,7 @@ class BaseCollection extends Chaplin.Collection
   _.extend @prototype,
     EventExtensions,
     IdentityMapExtensions,
+    AllowOnlyOneExtensions,
     Chaplin.SyncMachine
 
   initialize: ->
