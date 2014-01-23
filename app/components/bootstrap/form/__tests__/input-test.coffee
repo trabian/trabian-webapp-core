@@ -116,3 +116,15 @@ describe 'Input component', ->
       React.DOM.p { className: 'help-block' }, 'HELP!'
 
     rendered.$el.should.have 'p.help-block'
+
+  it 'should support focus on render', ->
+
+    { $el } = renderIntoDocument Input {}
+
+    $el.find('input')[0].should.not.equal document.activeElement
+
+    { $el } = renderIntoDocument Input
+      focus: true
+
+    $el.find('input')[0].should.equal document.activeElement
+

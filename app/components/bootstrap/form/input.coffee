@@ -6,6 +6,11 @@ module.exports = React.createClass
     type: 'text'
     id: _.uniqueId 'input'
 
+  componentDidMount: ->
+
+    if @props.focus
+      @refs.input.getDOMNode().focus()
+
   render: ->
 
     React.DOM.div { className: 'form-group' }, [
