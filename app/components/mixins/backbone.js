@@ -6,23 +6,22 @@ module.exports = {
         // Detect if it's a collection
         if (model instanceof Backbone.Collection) {
             model.on('add remove reset sort', function () {
-              if (this.isMounted()) {
-                this.forceUpdate();
-              } else {
-                console.debug('Tried to force update a component that was unmounted. But of course we didn\'t let that happen.');
-              }
+              this.forceUpdateIfMounted();
             }, this);
         }
         else if (model) {
             var changeOptions = this.changeOptions || 'change';
             model.on(changeOptions, (this.onModelChange || function () {
-              if (this.isMounted()) {
-                this.forceUpdate();
-              } else {
-                console.debug('Tried to force update a component that was unmounted. But of course we didn\'t let that happen.');
-              }
+              this.forceUpdateIfMounted();
             }), this);
         }
+    },
+    forceUpdateIfMounted: function() {
+      if (this.isMounted()) {
+        this.forceUpdate();
+      } else {
+        console.debug('Tried to force update a component that was unmounted. But of course we didn\'t let that happen.');
+      }
     },
     _unsubscribe: function(model) {
         if (!model) {
