@@ -102,7 +102,7 @@ class BaseCollection extends Chaplin.Collection
       for key, value of resp when key isnt 'links'
         (@related or= {})[key] = value
 
-    resp[resourceName] or resp
+    resp[resourceName] or resp.data?[resourceName] or resp.data or resp
 
   fetch: (options = {}) ->
 
