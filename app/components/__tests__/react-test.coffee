@@ -9,10 +9,21 @@ describe 'React.createBackboneClass', ->
 
     { $el, component } = renderIntoDocument Component()
 
-    component._subscribe.should.be.ok
-    component._unsubscribe.should.be.ok
-    component.bindTo.should.be.ok
+    component._subscribe.should.exist
+    component._unsubscribe.should.exist
+    component.bindTo.should.exist
 
-    component.el().should.be.ok
+    component.el().should.exist
 
     $(component.el()).should.have.class 'sample'
+
+  it 'should add the deferred mixin', ->
+
+    Component = React.createBackboneClass
+
+      render: ->
+        React.DOM.div { className: 'sample' }
+
+    { $el, component } = renderIntoDocument Component()
+
+    component.updateOn.should.exist
