@@ -2,6 +2,8 @@
 
 path = require 'path'
 
+TEST_PORT = 9880
+
 module.exports = (grunt) ->
 
   # Load all grunt tasks from modules beginning with grunt-*. This leverages
@@ -151,6 +153,7 @@ module.exports = (grunt) ->
           'app/**/__tests__/**/*.coffee': ['coffee']
         reporters: ['spec', 'osx']
         autoWatch: false
+        port: TEST_PORT
         browsers: ['PhantomJS']
         coffeePreprocessor:
           options:
