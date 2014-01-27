@@ -124,7 +124,7 @@ describe 'Input component', ->
     $el.find('input')[0].should.not.equal document.activeElement
 
     { $el } = renderIntoDocument Input
-      focus: true
+      autoFocus: true
 
     $el.find('input')[0].should.equal document.activeElement
 

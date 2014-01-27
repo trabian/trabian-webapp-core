@@ -6,11 +6,6 @@ module.exports = React.createClass
     type: 'text'
     id: _.uniqueId 'input'
 
-  componentDidMount: ->
-
-    if @props.focus
-      @refs.input.getDOMNode().focus()
-
   render: ->
 
     React.DOM.div { className: 'form-group' }, [
@@ -36,6 +31,7 @@ module.exports = React.createClass
       React.DOM.input
         type: @props.type
         className: 'form-control'
+        autoFocus: @props.autoFocus
         id: @props.id
         key: 1
         ref: 'input'
