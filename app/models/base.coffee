@@ -32,11 +32,20 @@ class BaseModel extends Chaplin.Model
     # Resolve the model the first time it's synced (via finishSync())
     @synced @resolve
 
-  fetch: ->
+  fetch: (options = {}) ->
 
-    @beginSync()
+    _(options).defaults
+      force: false
 
-    super.done => @finishSync()
+    if options.force or not @isSynced()
+
+      @beginSync()
+
+      super.done => @finishSync()
+
+    else
+
+      $.Deferred (d) -> d.resolve()
 
   # For individual model requests the data will be returned as the only
   # element of an array at `resourceName`. For example, if resourceName is
