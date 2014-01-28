@@ -25,12 +25,12 @@ class BaseModel extends Chaplin.Model
 
     super
 
-    _(this).extend $.Deferred()
+    # _(this).extend $.Deferred()
 
     @buildRelations()
 
     # Resolve the model the first time it's synced (via finishSync())
-    @synced @resolve
+    # @synced @resolve
 
   fetch: (options = {}) ->
 
@@ -86,10 +86,10 @@ class BaseCollection extends Chaplin.Collection
 
     super
 
-    _(this).extend $.Deferred()
+    # _(this).extend $.Deferred()
 
     # Resolve the collection the first time it's synced (via finishSync())
-    @synced @resolve
+    # @synced @resolve
 
   resourceName: ->
     _.result @model.prototype, 'resourceName'

@@ -1,105 +1,103 @@
 { BaseModel, BaseCollection } = require 'core/models/base'
 
-describe 'Deferred', ->
+  # describe 'models', ->
 
-  describe 'models', ->
+  #   beforeEach ->
 
-    beforeEach ->
+  #     class Project extends BaseModel
 
-      class Project extends BaseModel
+  #     @project = new Project
 
-      @project = new Project
+  #     @server = sinon.fakeServer.create()
 
-      @server = sinon.fakeServer.create()
+  #   afterEach ->
+  #     @server.restore()
 
-    afterEach ->
-      @server.restore()
+  #   it 'should be pending by default', ->
 
-    it 'should be pending by default', ->
+  #     @project.state().should.equal 'pending'
 
-      @project.state().should.equal 'pending'
+  #   it 'should add deferreds to the model', (done) ->
 
-    it 'should add deferreds to the model', (done) ->
+  #     @project.done -> done()
 
-      @project.done -> done()
+  #     @project.resolve()
 
-      @project.resolve()
+  #   it "should resolve the model the first time it's fetched", (done) ->
 
-    it "should resolve the model the first time it's fetched", (done) ->
+  #     @project.done -> done()
 
-      @project.done -> done()
+  #     @project.beginSync()
 
-      @project.beginSync()
+  #     @project.finishSync()
 
-      @project.finishSync()
+  #   it "should resolve the model when fetched", (done) ->
 
-    it "should resolve the model when fetched", (done) ->
+  #     @project.done -> done()
 
-      @project.done -> done()
+  #     @project.url = '/projects/1'
 
-      @project.url = '/projects/1'
+  #     @server.respondWith /\/projects\/(\d+)/, (req, id) ->
 
-      @server.respondWith /\/projects\/(\d+)/, (req, id) ->
+  #       req.respond 200, { "Content-Type": "application/json" }, JSON.stringify
+  #         projects: [
+  #           id: parseInt id # Use whatever ID is passed
+  #           name: 'My Project'
+  #         ]
 
-        req.respond 200, { "Content-Type": "application/json" }, JSON.stringify
-          projects: [
-            id: parseInt id # Use whatever ID is passed
-            name: 'My Project'
-          ]
+  #     @project.fetch()
 
-      @project.fetch()
+  #     @server.respond()
 
-      @server.respond()
+  # describe 'collections', ->
 
-  describe 'collections', ->
+  #   beforeEach ->
 
-    beforeEach ->
+  #     class Project extends BaseModel
 
-      class Project extends BaseModel
+  #     class ProjectCollection extends BaseCollection
 
-      class ProjectCollection extends BaseCollection
+  #       model: Project
 
-        model: Project
+  #     @projects = new ProjectCollection
 
-      @projects = new ProjectCollection
+  #     @server = sinon.fakeServer.create()
 
-      @server = sinon.fakeServer.create()
+  #   afterEach ->
+  #     @server.restore()
 
-    afterEach ->
-      @server.restore()
+  #   it 'should be pending by default', ->
 
-    it 'should be pending by default', ->
+  #     @projects.state().should.equal 'pending'
 
-      @projects.state().should.equal 'pending'
+  #   it 'should add deferreds to the collection', (done) ->
 
-    it 'should add deferreds to the collection', (done) ->
+  #     @projects.done -> done()
 
-      @projects.done -> done()
+  #     @projects.resolve()
 
-      @projects.resolve()
+  #   it "should resolve the collection the first time it's fetched", (done) ->
 
-    it "should resolve the collection the first time it's fetched", (done) ->
+  #     @projects.done -> done()
 
-      @projects.done -> done()
+  #     @projects.beginSync()
 
-      @projects.beginSync()
+  #     @projects.finishSync()
 
-      @projects.finishSync()
+  #   it "should resolve the collection when fetched", (done) ->
 
-    it "should resolve the collection when fetched", (done) ->
+  #     @projects.done -> done()
 
-      @projects.done -> done()
+  #     @projects.url = '/projects'
 
-      @projects.url = '/projects'
+  #     @server.respondWith "/projects", (req) ->
 
-      @server.respondWith "/projects", (req) ->
+  #       req.respond 200, { "Content-Type": "application/json" }, JSON.stringify
+  #         projects: [
+  #           id: 1
+  #           name: 'My Project'
+  #         ]
 
-        req.respond 200, { "Content-Type": "application/json" }, JSON.stringify
-          projects: [
-            id: 1
-            name: 'My Project'
-          ]
+  #     @projects.fetch()
 
-      @projects.fetch()
-
-      @server.respond()
+  #     @server.respond()
