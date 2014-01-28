@@ -11,40 +11,23 @@ SampleClass = React.createClass
 
 describe 'Router Mixin', ->
 
-  it 'should load the provided routes and attach the component to the route context as "this.component"', (done) ->
-
-    attachedComponent = null
-    testId = null
-
-    { component } = renderIntoDocument SampleClass
-
-      defaultRoute: '/test/3'
-
-      routes:
-
-        '/test/:id': (id) ->
-          attachedComponent = @component
-          testId = parseInt id
-
-    router = component.props.router
-
-    router.should.exist
-
-    _.defer ->
-      testId.should.equal 3
-      attachedComponent.should.equal component
-      done()
-
   it 'should be able to change properties on the component', ->
 
     { component } = renderIntoDocument SampleClass
 
-      defaultRoute: '/test'
+      routeBase: '/app'
 
-      routes:
-        '/test': ->
-          @component.setState
+      addRoutes: (page) ->
+
+        page '/test', (ctx) ->
+
+          ctx.component.setState
             someState: 'someValue'
+
+        page '*', (ctx, next) ->
+          # Ignore
+
+    component.navigateTo '/app/test'
 
     component.state.someState.should.equal 'someValue'
 
@@ -52,34 +35,43 @@ describe 'Router Mixin', ->
 
     { component } = renderIntoDocument SampleClass
 
-      defaultRoute: '/accounts/5/subaccounts/20'
+      addRoutes: (page) ->
 
-      routes:
+        page '*', (ctx, next) ->
 
-        '/': ->
-
-          @component.setState
+          ctx.component.setState
             user: 'user'
 
-        '/accounts/:id':
+          next()
 
-          on: (accountId) ->
+        page '/accounts/:groupId/*', (ctx, next) ->
 
-            @component.setState
-              accountId: accountId
-              main: ->
-                'main account'
+          if ctx.params.groupId
 
-          '/subaccounts/:id':
+            ctx.component.setState
+              accountGroupId: ctx.params.groupId
+              accountId: null
 
-            on: (accountId, subaccountId) ->
+          next()
 
-              @component.setState
-                subaccountId: subaccountId
-                main: ->
-                  'subaccount'
+        page '/accounts/:groupId', (ctx, next) ->
+
+          ctx.component.setState
+            topLevel: true
+
+        page "/accounts/:groupId/subaccounts/:accountId", (ctx) ->
+
+          if ctx.params.accountId
+
+            ctx.component.setState
+              accountId: ctx.params.accountId
+
+        page '*', (ctx, next) ->
+          # Ignore
+
+    component.navigateTo '/accounts/5/subaccounts/20'
 
     component.state.user.should.equal 'user'
-    component.state.accountId.should.equal '5'
-    component.state.subaccountId.should.equal '20'
-    component.state.main().should.equal 'subaccount'
+    component.state.accountGroupId.should.equal '5'
+    component.state.accountId.should.equal '20'
+    expect(component.state.topLevel).to.not.be.ok

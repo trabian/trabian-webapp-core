@@ -1,21 +1,26 @@
-Router = require('director').Router
+# Router = require('director').Router
+
+page = require 'page'
 
 module.exports =
 
   componentWillMount: ->
 
-    self = @
+    # Remove any previously-mounted callbacks
+    page.callbacks = []
 
-    if @props.routes
+    page.base @props.routeBase
 
-      @props.router = Router(@props.routes).configure
+    page '*', (ctx, next) =>
+      ctx.component = @
+      next()
 
-        html5history: true
+    @props.addRoutes? page
 
-        recurse: 'forward'
+    page.start()
 
-        before: ->
-          @component = self
+  componentWillUnmount: ->
+    page.stop()
 
-      .init @props.defaultRoute
-
+  navigateTo: (route) ->
+    page route

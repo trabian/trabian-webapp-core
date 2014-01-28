@@ -8,6 +8,8 @@ renderIntoDocument = (instance, callback) ->
 
   div = document.createElement 'div'
 
+  div.id = 'component-wrapper'
+
   document.documentElement.appendChild div
 
   component = React.renderComponent instance, div, callback
@@ -19,3 +21,8 @@ renderIntoDocument = (instance, callback) ->
   $el: $(el)
   parent: div
 
+afterEach ->
+
+  if div = document.getElementById 'component-wrapper'
+    React.unmountComponentAtNode div
+    document.documentElement.removeChild div
