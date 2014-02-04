@@ -82,7 +82,7 @@ module.exports = class FakeServer
     [path, query] = req.url.split '?'
 
     params = if query
-      Chaplin.utils.queryParams.parse query
+      utils.queryParams.parse query
     else
       {}
 
