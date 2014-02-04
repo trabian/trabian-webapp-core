@@ -11,7 +11,12 @@ module.exports =
       console.log "Error formatting date", error
       return date
 
-  shortFormat: (date) -> @format date, 'M/D'
+  shortFormat: (date) ->
+    @format date, if moment(date).isSame moment(), 'year'
+      'M/D'
+    else
+      'M/D/YY'
+
   shortFormatWithYear: (date) -> @format date, 'M/D/YYYY'
   shortFormatWithShortYear: (date) -> @format date, 'M/D/YYYY'
 
