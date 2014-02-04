@@ -55,3 +55,35 @@ describe 'findLink', ->
 
     project.findLink('todos').should.equal '/projects/2/todos'
 
+  it 'should find links from the collection when provided as an array', ->
+
+    { ProjectCollection } = @classes
+
+    projects = new ProjectCollection
+
+    data =
+      links:
+        next: '/next-url'
+      data: [
+        id: 1
+        name: 'My Project'
+      ,
+        id: 2
+        name: 'My Other Project'
+      ]
+
+    projects.set projects.parse data
+
+    projects.links.should.be.ok
+
+    projects.getLink('next').should.equal '/next-url'
+
+    data =
+      data: [
+        id: 3
+        name: 'My Third Project'
+      ]
+
+    projects.set projects.parse data
+
+    expect(projects.links).to.not.exist

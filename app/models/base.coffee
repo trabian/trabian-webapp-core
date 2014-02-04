@@ -3,8 +3,10 @@ Chaplin = require 'chaplin'
 EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
+CollectionLinkExtensions = require './links/collection'
 IdentityMapExtensions = require './extensions/identity_map'
 AllowOnlyOneExtensions = require './extensions/allow-only-one'
+PaginationExtensions = require './extensions/pagination'
 
 require 'backbone-validation'
 
@@ -80,6 +82,8 @@ class BaseCollection extends Chaplin.Collection
     EventExtensions,
     IdentityMapExtensions,
     AllowOnlyOneExtensions,
+    CollectionLinkExtensions,
+    PaginationExtensions,
     Chaplin.SyncMachine
 
   initialize: ->
@@ -105,8 +109,7 @@ class BaseCollection extends Chaplin.Collection
 
     if _.isObject resp
 
-      if links = resp.links
-        @links = links
+      @links = resp.links
 
       for key, value of resp when key isnt 'links'
         (@related or= {})[key] = value
