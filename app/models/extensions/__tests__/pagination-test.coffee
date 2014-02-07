@@ -25,7 +25,7 @@ describe 'Pagination', ->
 
     @projects.canFetchMore().should.be.true
 
-  it.only 'should have a fetchMore method that calls "fetch" with force=true, remove=false, and the url from the "next" link', ->
+  it 'should have a fetchMore method that calls "fetch" with force=true, remove=false, and the url from the "next" link', ->
 
     @projects.links =
       next: '/some-next-link'

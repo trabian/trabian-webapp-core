@@ -4,7 +4,7 @@ EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
 CollectionLinkExtensions = require './links/collection'
-IdentityMapExtensions = require './extensions/identity_map'
+IdentityMapExtensions = require './extensions/identity-map'
 AllowOnlyOneExtensions = require './extensions/allow-only-one'
 PaginationExtensions = require './extensions/pagination'
 
@@ -114,7 +114,7 @@ class BaseCollection extends Chaplin.Collection
       for key, value of resp when key isnt 'links'
         (@related or= {})[key] = value
 
-    resp[resourceName] or resp.data?[resourceName] or resp.data or resp
+    resp[resourceName] ? resp.data?[resourceName] ? resp.data ? resp
 
   fetch: (options = {}) ->
 
@@ -132,6 +132,6 @@ class BaseCollection extends Chaplin.Collection
       $.Deferred (d) -> d.resolve()
 
   _getResourceArray: (key) ->
-    @related[key]
+    @related?[key]
 
 module.exports = { BaseModel, BaseCollection }

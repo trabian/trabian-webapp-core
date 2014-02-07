@@ -3,7 +3,7 @@ module.exports =
   init: ->
 
     window._ = require 'underscore'
-    window.$ = require 'jquery'
+    window.$ = window.jQuery = require 'jquery'
 
     window.Backbone = require 'backbone'
 

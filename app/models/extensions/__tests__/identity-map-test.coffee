@@ -52,6 +52,17 @@ describe 'Identity map', ->
 
       projectCollection.should.have.length 1
 
+    it 'should handle adding a model via attributes', ->
+
+      { Project, ProjectCollection } = @classes
+
+      projectCollection = new ProjectCollection
+
+      project = projectCollection._prepareModel
+        name: 'New Model'
+
+      project.get('name').should.equal 'New Model'
+
   describe 'clear', ->
 
     it 'should be able to clear the cache', ->
