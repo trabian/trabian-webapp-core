@@ -61,6 +61,20 @@ describe 'Relations (Has Many)', ->
     project.get('todos').should.be.an.instanceOf TodoCollection
     project.get('todos').should.have.length 2
 
+  it 'should populate the related collection if provided as an array attribute, even if no id is present', ->
+
+    { Project, TodoCollection } = @classes
+
+    project = new Project
+      todos: [
+        name: 'My Todo'
+      ,
+        name: 'My Other Todo'
+      ]
+
+    project.get('todos').should.be.an.instanceOf TodoCollection
+    project.get('todos').should.have.length 2
+
   it 'should use the linkKey instead of the key when provided', ->
 
     { Project } = @classes

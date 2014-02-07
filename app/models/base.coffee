@@ -4,7 +4,7 @@ EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
 CollectionLinkExtensions = require './links/collection'
-IdentityMapExtensions = require './extensions/identity_map'
+IdentityMapExtensions = require './extensions/identity-map'
 AllowOnlyOneExtensions = require './extensions/allow-only-one'
 PaginationExtensions = require './extensions/pagination'
 
