@@ -11,4 +11,6 @@ module.exports =
 
     window.moment = require 'moment'
 
+    require 'select2'
+
     require('core/components/react').init()
