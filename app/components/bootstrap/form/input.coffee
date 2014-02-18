@@ -39,6 +39,7 @@ module.exports = React.createClass
         placeholder: @props.placeholder
         valueLink: @props.valueLink
         value: @props.value
+        defaultValue: @props.defaultValue
         onChange: @props.onChange
 
       @props.children
