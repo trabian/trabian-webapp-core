@@ -52,8 +52,16 @@ module.exports = {
         this._unsubscribe(this.props.model);
     },
     bindTo: function(model, key){
+
+      var value = model.get(key);
+
+      // Provide a default (empty) value if the value is null or undefined
+      if (value == null) {
+        value = '';
+      }
+
       return {
-          value: model.get(key),
+          value: value,
           requestChange: function(value){
               model.set(key, value);
           }.bind(this)
