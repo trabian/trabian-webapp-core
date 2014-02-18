@@ -20,6 +20,13 @@ module.exports = React.createClass
 
     $(rootNode).on 'change', @_handleChange
 
+  componentDidUpdate: (prevProps, prevState, rootNode) ->
+
+    value = @props.valueLink?.value
+
+    if value?
+      $(rootNode).select2 'val', value
+
   componentWillUnmount: ->
     $(@getDOMNode()).select2 'destroy'
 
