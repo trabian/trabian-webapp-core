@@ -15,6 +15,7 @@ module.exports = React.createClass
         text = @props.label
 
         labelProps =
+          className: 'control-label'
           htmlFor: @props.id if @props.id
           key: 0
 
