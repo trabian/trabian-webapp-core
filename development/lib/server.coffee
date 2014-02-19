@@ -69,6 +69,9 @@ module.exports = class FakeServer
   post: (url, response) ->
     @buildResponse 'POST', url, response
 
+  delete: (url, response) ->
+    @buildResponse 'DELETE', url, response
+
   restore: ->
     @server.restore()
 
