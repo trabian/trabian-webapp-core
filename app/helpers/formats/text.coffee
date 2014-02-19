@@ -28,3 +28,13 @@ module.exports =
         .replace(outerExp, '')
 
     out.toLowerCase()
+
+  maskId: (value, stars = 4, revealed = 4, unmaskIfShort = false) ->
+
+    if value
+      value = "#{value}"
+
+      if unmaskIfShort and value.length <= revealed
+        value
+      else
+        "#{Array(stars+1).join('*')}#{value.slice value.length - revealed}"
