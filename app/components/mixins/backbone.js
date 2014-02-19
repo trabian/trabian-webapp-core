@@ -63,7 +63,7 @@ module.exports = {
       return {
           value: value,
           requestChange: function(value){
-              model.set(key, value);
+              model.set(key, value, { validate: true });
           }.bind(this)
       }
     }

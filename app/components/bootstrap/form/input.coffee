@@ -8,7 +8,11 @@ module.exports = React.createClass
 
   render: ->
 
-    React.DOM.div { className: 'form-group' }, [
+    groupClasses = React.addons.classSet
+      'form-group': true
+      'has-error': !! @props.validationError
+
+    React.DOM.div { className: groupClasses }, [
 
       if @props.label
 

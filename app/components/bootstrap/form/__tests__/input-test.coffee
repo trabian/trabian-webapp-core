@@ -1,6 +1,6 @@
 Input = require 'core/components/bootstrap/form/input'
 
-describe 'Input component', ->
+describe.only 'Input component', ->
 
   it 'should be a component', ->
 
@@ -128,3 +128,9 @@ describe 'Input component', ->
 
     $el.find('input')[0].should.equal document.activeElement
 
+  it 'should show a validation error if provided', ->
+
+    rendered = renderIntoDocument Input
+      validationError: 'This field is invalid'
+
+    rendered.$el.should.have.class 'has-error'
