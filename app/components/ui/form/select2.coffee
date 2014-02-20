@@ -14,6 +14,10 @@ module.exports = React.createClass
     $(rootNode).select2
       placeholder: @props.placeholder
       allowClear: @props.allowClear
+      formatResult: @props.formatResult
+      formatSelection: @props.formatSelection
+      escapeMarkup: @props.escapeMarkup
+      dropdownCssClass: 'bootstrap'
 
     if @props.defaultValue
       $(rootNode).select2 'val', @props.defaultValue
