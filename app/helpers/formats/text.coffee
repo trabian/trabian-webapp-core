@@ -38,3 +38,8 @@ module.exports =
         value
       else
         "#{Array(stars+1).join('*')}#{value.slice value.length - revealed}"
+
+  titleize: (original) ->
+
+    original.replace /\w\S*/g, (txt) ->
+      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
