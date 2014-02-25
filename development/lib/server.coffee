@@ -25,6 +25,9 @@ module.exports = class FakeServer
     # Wrap the function-based version of fakeServer's respondWith
     wrappedResponse = (req, matches...) =>
 
+      if @options.debug
+        console.log 'Generating wrapped response for request', req?.url, req
+
       originalRespond = req.respond
 
       req.respond = (responseArgs...) =>
