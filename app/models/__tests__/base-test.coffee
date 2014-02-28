@@ -118,31 +118,6 @@ describe 'Base model', ->
 
       project.isValid(true).should.be.true
 
-  describe 'toUpdateJSON', ->
-
-    it 'should default to toJSON if not overridden', ->
-
-      class Project extends BaseModel
-
-      project = new Project
-        name: 'test'
-
-      project.toUpdateJSON().should.deep.equal
-        name: 'test'
-
-      class Task extends BaseModel
-
-        toUpdateJSON: ->
-          prop: 'value'
-          name: 'test'
-
-      task = new Task
-        name: 'test'
-
-      task.toUpdateJSON().should.deep.equal
-        prop: 'value'
-        name: 'test'
-
 describe 'Base collection', ->
 
   describe 'parse', ->

@@ -51,8 +51,6 @@ class BaseModel extends Chaplin.Model
 
       $.Deferred (d) -> d.resolve()
 
-  toUpdateJSON: -> @toJSON.call this
-
   # For individual model requests the data will be returned as the only
   # element of an array at `resourceName`. For example, if resourceName is
   # `projects`:
