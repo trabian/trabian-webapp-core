@@ -9,7 +9,9 @@ build = (relation) ->
     if value = @get key
 
       unless value instanceof relatedModel
-        @set key, new relatedModel(value), silent: true
+        @set key, (value = new relatedModel value), silent: true
+
+      addReverseRelation.call this, value, relation
 
   @onAndTrigger 'change:links', ->
 
@@ -28,6 +30,13 @@ build = (relation) ->
       else
 
         # ... otherwise, create a new related model.
-        @set key, new relatedModel null, { url }
+        @set key, (model = new relatedModel null, { url })
+
+      addReverseRelation.call this, model, relation
+
+addReverseRelation = (model, relation) ->
+
+  if reverse = relation.reverseRelation
+    model[reverse.key] = this
 
 module.exports = { build }

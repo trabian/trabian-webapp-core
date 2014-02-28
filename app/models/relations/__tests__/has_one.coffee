@@ -12,6 +12,8 @@ describe 'Relations (HasOne)', ->
         type: 'HasOne'
         key: 'owner'
         relatedModel: Person
+        reverseRelation:
+          key: 'project'
       ,
         type: 'HasOne'
         key: 'address'
@@ -110,3 +112,18 @@ describe 'Relations (HasOne)', ->
     expect(owner).to.be.ok
 
     _.result(owner, 'url').should.equal '/people/1'
+
+  it 'should provide the reverse relation to the project', ->
+
+    { Project, Person } = @classes
+
+    project = new Project
+      owner:
+        id: 1
+        name: 'John Doe'
+
+    owner = project.get 'owner'
+
+    expect(owner).to.be.ok
+
+    owner.project.should.equal project
