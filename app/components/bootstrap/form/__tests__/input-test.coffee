@@ -82,11 +82,11 @@ describe 'Input component', ->
 
     rendered.$el.find('input').val().should.equal 'testing'
 
-    inputField = ReactTestUtils.findRenderedDOMComponentWithTag(rendered.component, 'input').getDOMNode()
+    inputField = React.addons.TestUtils.findRenderedDOMComponentWithTag(rendered.component, 'input').getDOMNode()
 
     inputField.value = 'some new value'
 
-    ReactTestUtils.Simulate.input inputField
+    React.addons.TestUtils.Simulate.change inputField
 
     changed.should.be.true
 
@@ -102,11 +102,11 @@ describe 'Input component', ->
 
     rendered.$el.find('input').val().should.equal 'testing'
 
-    inputField = ReactTestUtils.findRenderedDOMComponentWithTag(rendered.component, 'input').getDOMNode()
+    inputField = React.addons.TestUtils.findRenderedDOMComponentWithTag(rendered.component, 'input').getDOMNode()
 
     inputField.value = 'some new value'
 
-    ReactTestUtils.Simulate.input inputField
+    React.addons.TestUtils.Simulate.change inputField
 
     changed.should.be.true
 

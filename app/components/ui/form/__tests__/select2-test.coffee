@@ -55,6 +55,6 @@ describe 'Select2 Component', ->
 
     rendered.$el.val 'test3'
 
-    ReactTestUtils.Simulate.change rendered.$el[0]
+    React.addons.TestUtils.Simulate.change rendered.$el[0]
 
     changed.should.be.true

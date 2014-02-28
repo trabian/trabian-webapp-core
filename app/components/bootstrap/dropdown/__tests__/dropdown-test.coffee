@@ -46,5 +46,5 @@ describe 'Dropdown component', ->
 
     $el.should.have 'ul.dropdown-menu'
 
-    ReactTestUtils.scryRenderedComponentsWithType(component, DropdownItem).should.have.length 2
+    React.addons.TestUtils.scryRenderedComponentsWithType(component, DropdownItem).should.have.length 2
 

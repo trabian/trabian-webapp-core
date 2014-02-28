@@ -2,8 +2,6 @@ require('core').init()
 
 require 'stickit'
 
-{ ReactTestUtils } = React.addons
-
 renderIntoDocument = (instance, callback) ->
 
   div = document.createElement 'div'

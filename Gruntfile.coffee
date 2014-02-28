@@ -162,7 +162,7 @@ module.exports = (grunt) ->
             sourceMap: false
         files: [
           'test/helpers/phantomjs-shim.js'
-          'test/helpers/react-with-tests.js'
+          'bower_components/react/react-with-addons.js'
           '.tmp/lib.js'
           '.tmp/app.js'
           'test/index.coffee'
