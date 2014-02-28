@@ -7,32 +7,12 @@ CollectionLinkExtensions = require './links/collection'
 IdentityMapExtensions = require './extensions/identity-map'
 AllowOnlyOneExtensions = require './extensions/allow-only-one'
 PaginationExtensions = require './extensions/pagination'
+{ classMixin } = require './lib/mixin'
 
 require 'backbone-validation'
 
 Backbone.Validation.configure
   forceUpdate: true
-
-classMixin = (mixins...) ->
-
-  for mixin in mixins
-
-    arrayProperties = ['relations']
-    objectProperties = ['defaults', 'validation']
-
-    _(@prototype).extend _(mixin).omit arrayProperties.concat objectProperties
-
-    for arrayProperty in arrayProperties
-
-      if newValue = mixin[arrayProperty]
-
-        @prototype[arrayProperty] =
-          @prototype[arrayProperty]?.concat(newValue) or newValue
-
-    for objectProperty in objectProperties
-
-      if newValue = mixin[objectProperty]
-        _(@prototype[objectProperty] ?= {}).extend newValue
 
 _.extend Backbone.Model.prototype, Backbone.Validation.mixin
 
