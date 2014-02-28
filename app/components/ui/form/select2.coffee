@@ -9,9 +9,11 @@ module.exports = React.createClass
     defaultValue: React.PropTypes.string
     onChange: React.PropTypes.func
 
-  componentDidMount: (rootNode) ->
+  componentDidMount: ->
 
-    $(rootNode).select2
+    $rootNode = $ @getDOMNode()
+
+    $rootNode.select2
       placeholder: @props.placeholder
       allowClear: @props.allowClear
       formatResult: @props.formatResult
@@ -20,16 +22,16 @@ module.exports = React.createClass
       dropdownCssClass: 'bootstrap'
 
     if @props.defaultValue
-      $(rootNode).select2 'val', @props.defaultValue
+      $rootNode.select2 'val', @props.defaultValue
 
-    $(rootNode).on 'change', @_handleChange
+    $rootNode.on 'change', @_handleChange
 
-  componentDidUpdate: (prevProps, prevState, rootNode) ->
+  componentDidUpdate: (prevProps, prevState) ->
 
     value = @props.valueLink?.value
 
     if value?
-      $(rootNode).select2 'val', value
+      $(@getDOMNode()).select2 'val', value
 
   componentWillUnmount: ->
     $(@getDOMNode()).select2 'destroy'

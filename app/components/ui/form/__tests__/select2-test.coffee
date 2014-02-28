@@ -58,3 +58,11 @@ describe 'Select2 Component', ->
     React.addons.TestUtils.Simulate.change rendered.$el[0]
 
     changed.should.be.true
+
+  it 'should add select2 to the root node', ->
+
+    { $el } = renderIntoDocument Select2Component
+      name: 'testing'
+    , @options
+
+    $el.select2('container').length.should.equal 1
