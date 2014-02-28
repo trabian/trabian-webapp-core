@@ -16,9 +16,12 @@ describe 'Select2 Component', ->
       name: 'testing'
     , @options
 
-    $el.should.be 'select'
-    $el.should.have.attr 'name', 'testing'
-    $el.find('option').length.should.equal 3
+    $select = $el.parent().find 'select'
+
+    $select.should.exist
+
+    $select.should.have.attr 'name', 'testing'
+    $select.find('option').length.should.equal 3
 
   it 'should add an empty option if there\'s a placeholder', ->
 
@@ -27,9 +30,10 @@ describe 'Select2 Component', ->
       placeholder: 'Testing'
     , @options
 
-    $el.should.be 'select'
-    $el.should.have.attr 'name', 'testing'
-    $el.find('option').length.should.equal 4
+    $select = $el.parent().find 'select'
+
+    $select.should.have.attr 'name', 'testing'
+    $select.find('option').length.should.equal 4
 
   it 'should set the default value if provided', ->
 
@@ -38,24 +42,28 @@ describe 'Select2 Component', ->
       defaultValue: 'test2'
     , @options
 
-    $el.val().should.equal 'test2'
+    $select = $el.parent().find 'select'
+
+    $select.val().should.equal 'test2'
 
   it 'should set a valueLink on the select if provided', ->
 
     changed = false
 
-    rendered = renderIntoDocument Select2Component
+    { $el } = renderIntoDocument Select2Component
       valueLink:
         value: 'test2'
         requestChange: ->
           changed = true
     , @options
 
-    rendered.$el.val().should.equal 'test2'
+    $select = $el.parent().find 'select'
 
-    rendered.$el.val 'test3'
+    $select.val().should.equal 'test2'
 
-    React.addons.TestUtils.Simulate.change rendered.$el[0]
+    $select.val 'test3'
+
+    React.addons.TestUtils.Simulate.change $select[0]
 
     changed.should.be.true
 
