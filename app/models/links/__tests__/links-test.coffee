@@ -87,3 +87,85 @@ describe 'findLink', ->
     projects.set projects.parse data
 
     expect(projects.links).to.not.exist
+
+  describe 'default links', ->
+
+    it 'should support default links', ->
+
+      class Task extends BaseModel
+
+        defaultLinks:
+          settings: '/settings'
+
+      class TaskCollection extends BaseCollection
+
+        model: Task
+
+        defaultLinks:
+          project: '/project'
+
+      task = new Task
+
+      task.findLink('settings').should.equal '/settings'
+
+      taskCollection = new TaskCollection
+
+      taskCollection.getLink('project').should.equal '/project'
+
+    it 'should prefer links if provided', ->
+
+      class Task extends BaseModel
+
+        defaultLinks:
+          settings: '/settings'
+
+      class TaskCollection extends BaseCollection
+
+        model: Task
+
+        defaultLinks:
+          project: '/project'
+
+      task = new Task
+
+      task.set task.parse
+        links:
+          settings: '/custom-settings-url'
+
+      task.getLink('settings').should.equal '/custom-settings-url'
+
+      tasks = new TaskCollection
+
+      tasks.set tasks.parse
+        links:
+          project: '/custom-project-url'
+
+      tasks.getLink('project').should.equal '/custom-project-url'
+
+    it 'should support default links as functions', ->
+
+      class Task extends BaseModel
+
+        defaultLinks:
+          settings: -> "/tasks/#{@id}/settings"
+
+      class TaskCollection extends BaseCollection
+
+        model: Task
+
+        defaultLinks:
+          project: -> "/#{@length}/project"
+
+      task = new Task
+        id: 1
+
+      task.findLink('settings').should.equal '/tasks/1/settings'
+
+      taskCollection = new TaskCollection [
+        id: 1
+      ,
+        id: 2
+      ]
+
+      taskCollection.getLink('project').should.equal '/2/project'
+
