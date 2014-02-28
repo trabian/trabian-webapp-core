@@ -1,4 +1,4 @@
-# Bootstrap Input compontent
+# Bootstrap Input component
 
 module.exports = React.createClass
 
@@ -35,7 +35,7 @@ module.exports = React.createClass
 
       React.DOM.input
         type: @props.type
-        className: 'form-control'
+        className: ['form-control', @props.inputClass].join ' '
         autoFocus: @props.autoFocus
         id: @props.id
         key: 1

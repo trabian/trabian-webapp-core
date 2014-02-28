@@ -30,6 +30,15 @@ describe 'Input component', ->
 
     rendered.$el.should.have 'input[type=password]'
 
+  it 'should add the inputClass to the input', ->
+
+    rendered = renderIntoDocument Input
+      type: 'text'
+      inputClass: 'some-class'
+
+    rendered.$el.find('input').should.have.class 'form-control'
+    rendered.$el.find('input').should.have.class 'some-class'
+
   it 'should render a label iff a label is provided', ->
 
     rendered = renderIntoDocument Input()
