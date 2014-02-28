@@ -85,7 +85,10 @@ class BaseModel extends Chaplin.Model
   # models in the collection the `resp` parameter will contain the unwrapped
   # model data.
   parse: (resp) ->
-    _.first(resp?[@resourceName]) or resp?.data or resp
+    _.first(resp?[@resourceName]) or
+      resp?.data?[@resourceName] or
+      resp?.data or
+      resp
 
   _getResourceArray: (key) ->
     @related?[key] or @collection?._getResourceArray key

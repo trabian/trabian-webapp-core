@@ -24,6 +24,18 @@ describe 'Base model', ->
         id: 1
         name: 'Test Name'
 
+    it 'should fall back to looking for data at data["resourceName"]', ->
+
+      parsedData = @project.parse
+        data:
+          projects:
+            id: 1
+            name: 'Test Name'
+
+      parsedData.should.deep.equal
+        id: 1
+        name: 'Test Name'
+
     it 'should handle the case where a non-scoped response is parsed (for instance, when being parsed by the collection)', ->
 
       parsedData = @project.parse
