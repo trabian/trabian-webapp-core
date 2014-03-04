@@ -20,6 +20,7 @@ module.exports =
 
     @setState
       showValidationIssues: true
+      errorMessage: null
 
     if @props.model.isValid true
 
@@ -28,8 +29,13 @@ module.exports =
 
       @props.model.save().then =>
         @onSave?()
-      .fail =>
-        console.warn 'FAIL', arguments
+      .fail (response) =>
+
+        if @isMounted() and message = response.responseJSON?.error?.message
+
+          @setState
+            errorMessage: message
+
       .always =>
 
         if @isMounted()
