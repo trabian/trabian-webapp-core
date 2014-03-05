@@ -37,6 +37,7 @@ module.exports = React.createClass
         type: @props.type
         className: ['form-control', @props.inputClass].join ' '
         autoFocus: @props.autoFocus
+        disabled: @props.disabled
         id: @props.id
         key: 1
         ref: 'input'
