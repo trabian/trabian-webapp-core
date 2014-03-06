@@ -43,3 +43,11 @@ module.exports =
             saving: false
             showValidationIssues: false
 
+  renderErrorMessage: ->
+
+    if @state.errorMessage
+
+      React.DOM.p
+        className: 'alert alert-danger'
+      , @state.errorMessage
+

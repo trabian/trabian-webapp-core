@@ -8,7 +8,8 @@ module.exports = React.createClass
     existingDate = @props.valueLink?.value
     newDate = nextProps.valueLink?.value
 
-    unless (existingDate is newDate) or moment(existingDate).isSame newDate, 'day'
+    unless (existingDate is newDate) or
+        moment(existingDate).isSame newDate, 'day'
 
       @skipChangeEvent = true
 

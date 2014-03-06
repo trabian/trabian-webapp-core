@@ -1,5 +1,7 @@
 # Bootstrap Input component
 
+FormGroup = require './form-group'
+
 module.exports = React.createClass
 
   getDefaultProps: ->
@@ -8,11 +10,9 @@ module.exports = React.createClass
 
   render: ->
 
-    groupClasses = React.addons.classSet
-      'form-group': true
-      'has-error': !! @props.validationError
-
-    React.DOM.div { className: groupClasses }, [
+    FormGroup
+      validationError: @props.validationError
+    , [
 
       if @props.label
 
@@ -35,7 +35,10 @@ module.exports = React.createClass
 
       React.DOM.input
         type: @props.type
-        className: ['form-control', @props.inputClass].join ' '
+        className: [
+          'form-control',
+          @props.inputClass
+        ].join ' '
         autoFocus: @props.autoFocus
         disabled: @props.disabled
         id: @props.id
