@@ -1,4 +1,4 @@
-{ currency, numberWithDelimiter, parseCurrency, percentage } = require('core/helpers/formats').number
+{ currency, numberWithDelimiter, parseCurrency, percentage, ordinal } = require('core/helpers/formats').number
 
 describe 'Number formatters', ->
 
@@ -43,3 +43,14 @@ describe 'Number formatters', ->
 
       percentage('0.0123').should.equal '1.23%'
       percentage('1.23%').should.equal '1.23%'
+
+  describe 'ordinal', ->
+
+    it 'should convert a number to its ordinal version', ->
+
+      ordinal(1).should.equal '1st'
+      ordinal(2).should.equal '2nd'
+      ordinal(3).should.equal '3rd'
+      ordinal(4).should.equal '4th'
+      ordinal(5).should.equal '5th'
+      ordinal('31').should.equal '31st'

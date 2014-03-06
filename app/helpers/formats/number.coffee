@@ -32,3 +32,6 @@ module.exports =
       multiply = number < 1
 
     (number * (if multiply then 100 else 1)).toFixed(precision) + "%"
+
+  ordinal: (number) ->
+    moment().lang().ordinal number
