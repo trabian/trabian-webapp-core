@@ -52,6 +52,8 @@ describe 'Identity map', ->
 
       projectCollection.should.have.length 1
 
+      project.collection.should.equal projectCollection
+
     it 'should handle adding a model via attributes', ->
 
       { Project, ProjectCollection } = @classes

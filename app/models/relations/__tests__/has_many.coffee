@@ -113,8 +113,16 @@ describe 'Relations (Has Many)', ->
     { Project, TodoCollection } = @classes
 
     project = new Project
+      todos: [
+        id: 1
+        name: 'My Todo'
+      ]
 
     todos = project.get 'todos'
+
+    todo = todos.first()
+
+    todo.collection.should.equal todos
 
     project.set
       todos: [
@@ -129,6 +137,10 @@ describe 'Relations (Has Many)', ->
       ]
 
     todos.should.have.length 3
+
+    todo = todos.first()
+
+    todo.collection.should.equal todos
 
     project.get('todos').should.equal todos
 

@@ -24,6 +24,9 @@ updateCollection = (relation) ->
       # Update the existing collection
       existingCollection.reset value
 
+      existingCollection.each (value) ->
+        value.collection = existingCollection
+
       # The @set call that triggered this change has likely attempted to
       # replace the Collection with an array, so we need to undo that here.
       @set key, existingCollection, silent: true
