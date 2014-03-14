@@ -16,7 +16,7 @@ module.exports =
 
   submit: (e) ->
 
-    e.preventDefault()
+    e?.preventDefault()
 
     @setState
       showValidationIssues: true
