@@ -14,6 +14,14 @@ describe 'Input component', ->
 
     rendered.$el.should.be '.form-group'
 
+  it 'should add the className to the form-group', ->
+
+    rendered = renderIntoDocument Input
+      className: 'some-class'
+
+    rendered.$el.should.be '.some-class'
+    rendered.$el.should.be '.form-group'
+
   it 'should render an input based on the type passed', ->
 
     rendered = renderIntoDocument Input

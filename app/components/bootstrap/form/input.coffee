@@ -11,6 +11,7 @@ module.exports = React.createClass
   render: ->
 
     FormGroup
+      className: @props.className
       validationError: @props.validationError
     , [
 
