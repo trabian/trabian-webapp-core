@@ -1,5 +1,8 @@
 module.exports = React.createClass
 
+  getDefaultProps: ->
+    showErrorMessage: true
+
   render: ->
 
     classes = React.addons.classSet
@@ -12,7 +15,7 @@ module.exports = React.createClass
 
       @props.children
 
-      if @props.validationError
+      if @props.showErrorMessage and @props.validationError
 
         React.DOM.span
           className: 'help-block text-error'
