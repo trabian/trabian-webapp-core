@@ -33,7 +33,7 @@ module.exports =
 
         console.warn 'failed on submit', arguments, _.result @props.model, 'url'
 
-        if @isMounted() and message = response.responseJSON?.error?.message
+        if @isMounted() and message = response.responseJSON?.error?.message or response.responseJSON?.data?.error?.message
 
           @setState
             errorMessage: message
