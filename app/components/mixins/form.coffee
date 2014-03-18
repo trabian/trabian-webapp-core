@@ -10,6 +10,9 @@ module.exports =
       @setState errors: null
     , this
 
+  getInitialState: ->
+    saving: false
+
   getError: (key) ->
     return unless @state?.showValidationIssues
     @state?.errors?[key]
