@@ -27,3 +27,6 @@ module.exports =
     @format date, "#{dayFormat}, MMMM Do, YYYY", options.utc
 
   monthDayYear: (date) -> @format date, 'MMM Do, YYYY'
+
+  dayName: (day) ->
+    moment().lang()._weekdays[+day]
