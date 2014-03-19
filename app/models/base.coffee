@@ -142,6 +142,9 @@ class BaseCollection extends Chaplin.Collection
 
       $.Deferred (d) -> d.resolve()
 
+  validateAll: ->
+    @every (model) -> model.isValid true
+
   _getResourceArray: (key) ->
     @related?[key]
 
