@@ -59,7 +59,7 @@ module.exports = (grunt) ->
             'bower_components/underscore/underscore.js:underscore'
             'bower_components/backbone/backbone.js:backbone'
             'bower_components/backbone.stickit/backbone.stickit.js:stickit'
-            'bower_components/jquery/jquery.js:jquery'
+            'bower_components/jquery/dist/jquery.js:jquery'
             'bower_components/uritemplates/bin/uritemplate.js:uritemplate'
             'bower_components/select2/select2.js:select2'
             'bower_components/backbone.validation/dist/backbone-validation.js:backbone-validation'

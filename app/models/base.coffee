@@ -25,7 +25,10 @@ class BaseModel extends Chaplin.Model
     LinkExtensions,
     Chaplin.SyncMachine
 
-  initialize: ->
+  initialize: (attributes, options) ->
+
+    if url = options?.url
+      @url = url
 
     super
 
@@ -92,7 +95,10 @@ class BaseCollection extends Chaplin.Collection
     PaginationExtensions,
     Chaplin.SyncMachine
 
-  initialize: ->
+  initialize: (attributes, options) ->
+
+    if url = options?.url
+      @url = url
 
     super
 
