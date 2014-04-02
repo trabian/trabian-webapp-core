@@ -46,7 +46,7 @@ module.exports = React.createClass
 
             h4 { className: 'modal-title' }, @props.title
 
-          div { className: 'modal-body' }, @props.children
+          @props.children
 
           div { className: 'modal-footer' },
 
