@@ -69,6 +69,7 @@ class BaseModel extends Chaplin.Model
   # model data.
   parse: (resp) ->
     _.first(resp?[@resourceName]) or
+      resp?[@resourceName] or
       resp?.data?[@resourceName] or
       resp?.data or
       resp
