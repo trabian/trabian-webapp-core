@@ -14,6 +14,12 @@ describe 'Relations (Has Many)', ->
 
       model: Todo
 
+      initialize: (models, options = {}) ->
+
+        super
+
+        @someOption = options.someOption
+
     class Person extends BaseModel
 
     class PersonCollection extends BaseCollection
@@ -26,6 +32,8 @@ describe 'Relations (Has Many)', ->
         type: 'HasMany'
         key: 'todos'
         collectionType: TodoCollection
+        collectionOptions:
+          someOption: 'Some Value'
         reverseRelation:
           key: 'project'
       ,
@@ -189,3 +197,11 @@ describe 'Relations (Has Many)', ->
     todos = otherProject.get 'todos'
 
     todos.project.should.equal otherProject
+
+  it 'should pass the collectionOptions to the collection', ->
+
+    { Project } = @classes
+
+    project = new Project
+
+    project.get('todos').someOption.should.equal 'Some Value'

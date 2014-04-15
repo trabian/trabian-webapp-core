@@ -5,7 +5,7 @@ build = (relation) ->
 
 updateCollection = (relation) ->
 
-  { linkKey, key, collectionType } = relation
+  { linkKey, key, collectionType, collectionOptions } = relation
 
   linkKey ?= key
 
@@ -33,7 +33,7 @@ updateCollection = (relation) ->
 
     else
 
-      collection = new collectionType value
+      collection = new collectionType value, collectionOptions
 
       addReverseRelation.call this, collection, relation
 
