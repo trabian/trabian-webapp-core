@@ -114,6 +114,12 @@ class BaseCollection extends Chaplin.Collection
   url: ->
     _.result @model.prototype, 'urlRoot'
 
+  build: (attrs) ->
+
+    model = new @model attrs, collection: @
+
+    model.on 'sync', => @add model
+
   parse: (resp) ->
 
     return unless resp
