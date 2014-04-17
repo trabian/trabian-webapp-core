@@ -48,3 +48,11 @@ describe 'Text formatters', ->
 
       for original, expected of cases
         formats.text.parameterize(original, '_').should.equal expected
+
+  describe 'addLineBreaks', ->
+
+    it 'should handle single lined text without change', ->
+      formats.text.addLineBreaks('Single Line').should.equal 'Single Line'
+
+    it 'should convert line breaks to <br />s', ->
+      formats.text.addLineBreaks('Multiple Lines\nIn this one').should.equal 'Multiple Lines<br />In this one'

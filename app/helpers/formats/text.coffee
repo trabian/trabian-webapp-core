@@ -43,3 +43,8 @@ module.exports =
 
     original.replace /\w\S*/g, (txt) ->
       txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+
+  addLineBreaks: (original) ->
+
+    original?.replace /\n/g, '<br />'
+
