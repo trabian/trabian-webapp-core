@@ -219,6 +219,74 @@ describe 'Base collection', ->
 
       (new ProjectCollection).url().should.equal '/projects'
 
+  describe 'build', ->
+
+    beforeEach ->
+
+      class Project extends BaseModel
+
+        url: '/projects'
+
+      class ProjectCollection extends BaseCollection
+
+        model: Project
+
+      @projects = new ProjectCollection
+
+      @projectClass = Project
+
+      @server = sinon.fakeServer.create()
+
+      @server.respondWith /\/projects/, (req) ->
+        req.respond 200, { "Content-Type": "application/json" }, JSON.stringify
+          data: {}
+
+    afterEach ->
+
+      @server.restore()
+
+    it 'should build an empty instance of a model by default', ->
+
+      @projects.build().should.be.an.instanceof @projectClass
+
+    it 'should set attributes if given', ->
+
+      @projects.build
+        anAttr: 'aValue'
+      .get('anAttr').should.equal 'aValue'
+
+    it 'should add the element to the collection on sync', (done) ->
+
+      project = @projects.build
+        anAttr: 'aValue'
+
+      project.save().then =>
+
+        @projects.length.should.equal 1
+
+        @projects.first().should.equal project
+
+        @projects.first().get('anAttr').should.equal 'aValue'
+
+        done()
+
+      @server.respond()
+
+    it "shouldn't duplicate an element if saved twice", (done) ->
+
+      project = @projects.build()
+
+      project.save().then =>
+
+        project.save().then =>
+
+          @projects.length.should.equal 1
+
+          done()
+
+      @server.respond()
+
+
   describe 'fetch', ->
 
     beforeEach ->
