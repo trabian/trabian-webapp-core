@@ -12,7 +12,7 @@ module.exports =
 
     idAttribute = @model?::idAttribute
 
-    id = attrs[idAttribute]
+    id = @model::parse(attrs)[idAttribute]
 
     cache = IdentityCache.getOrCreate @model
 

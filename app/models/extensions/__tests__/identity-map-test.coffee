@@ -6,6 +6,8 @@ describe 'Identity map', ->
 
   beforeEach ->
 
+    IdentityCache.clear()
+
     class Project extends BaseModel
 
     class ProjectCollection extends BaseCollection
@@ -13,6 +15,31 @@ describe 'Identity map', ->
       model: Project
 
     @classes = { Project, ProjectCollection }
+
+  describe '_prepareModel', ->
+
+    it 'should use the idAttribute even if the model needs to be parsed first', ->
+
+      class Project extends BaseModel
+
+        idAttribute: 'nestedId'
+
+        parse: (resp) ->
+          nestedId: resp.nested.id
+
+      class ProjectCollection extends BaseCollection
+
+        model: Project
+
+      projects = new ProjectCollection
+
+      projects._prepareModel
+        nested:
+          id: 3
+
+      cache = IdentityCache.getOrCreate Project
+
+      expect(cache[3]).to.be.ok
 
   describe 'collection.add', ->
 
