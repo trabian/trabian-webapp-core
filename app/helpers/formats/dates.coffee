@@ -30,3 +30,12 @@ module.exports =
 
   dayName: (day) ->
     moment().lang()._weekdays[+day]
+
+  calendar: (date, lowercase = false) ->
+
+    dateStr = moment(date).calendar()
+
+    if lowercase
+      dateStr = dateStr.charAt(0).toLowerCase() + dateStr.slice 1
+
+    dateStr
