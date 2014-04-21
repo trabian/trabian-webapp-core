@@ -30,7 +30,9 @@ module.exports =
       @setState
         saving: true
 
-      @props.model.save().then =>
+      saveModel = @saveModel or @props.model.save
+
+      saveModel.call(@props.model).then =>
         @onSave?()
       .fail (response) =>
 
