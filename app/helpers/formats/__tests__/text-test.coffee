@@ -56,3 +56,14 @@ describe 'Text formatters', ->
 
     it 'should convert line breaks to <br />s', ->
       formats.text.addLineBreaks('Multiple Lines\nIn this one').should.equal 'Multiple Lines<br />In this one'
+
+  describe 'truncate', ->
+
+    it 'should not affect strings shorter than the given length', ->
+      formats.text.truncate('short string', 20).should.equal 'short string'
+
+    it 'should truncate strings longer than given length', ->
+      formats.text.truncate('a very long string', 10).should.equal 'a very lon...'
+
+    it 'should allow a custom truncate string', ->
+      formats.text.truncate('a very long string', 10, '>>>').should.equal 'a very lon>>>'

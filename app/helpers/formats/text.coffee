@@ -48,3 +48,9 @@ module.exports =
 
     original?.replace /\n/g, '<br />'
 
+  truncate: (original, length, truncateStr = "...") ->
+    return unless original
+    return original if original.length <= length
+
+    original.slice(0, length) + truncateStr
+
