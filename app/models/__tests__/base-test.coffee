@@ -1,6 +1,35 @@
 { BaseModel, BaseCollection } = require 'core/models/base'
 
+IdentityCache = require 'core/models/extensions/identity_cache'
+
 describe 'Base model', ->
+
+  describe '@findOrCreate', ->
+
+    beforeEach ->
+
+      IdentityCache.clear()
+
+    it 'should return from the identity cache if record is present', ->
+
+      class Project extends BaseModel
+
+      project = new Project
+        id: 1
+
+      cache = IdentityCache.getOrCreate Project
+
+      cache[1] = project
+
+      Project.findOrCreate(id: 1).should.equal project
+
+    it 'should return a new model if the cache has no record', ->
+
+      class Project extends BaseModel
+
+      cache = IdentityCache.getOrCreate Project
+
+      Project.findOrCreate(id: 1).get('id').should.equal 1
 
   describe 'parse', ->
 

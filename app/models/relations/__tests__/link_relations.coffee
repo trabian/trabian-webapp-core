@@ -12,11 +12,13 @@ describe 'Relations links', ->
 
       resourceName: 'comments'
 
-    class TodoCollection extends BaseCollection
+    class Todo extends BaseModel
 
       resourceName: 'todos'
 
-      url: '/todos'
+    class TodoCollection extends BaseCollection
+
+      model: Todo
 
     class Person extends BaseModel
 

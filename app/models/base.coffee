@@ -5,6 +5,7 @@ RelationExtensions = require './relations'
 LinkExtensions = require './links'
 CollectionLinkExtensions = require './links/collection'
 IdentityMapExtensions = require './extensions/identity-map'
+IdentityCache = require 'core/models/extensions/identity_cache'
 AllowOnlyOneExtensions = require './extensions/allow-only-one'
 PaginationExtensions = require './extensions/pagination'
 { classMixin } = require './lib/mixin'
@@ -24,6 +25,29 @@ class BaseModel extends Chaplin.Model
     RelationExtensions,
     LinkExtensions,
     Chaplin.SyncMachine
+
+  @findOrCreate: (attrs, options={}) ->
+
+    idAttribute = @::idAttribute
+
+    id = @::parse(attrs)[idAttribute]
+
+    cache = IdentityCache.getOrCreate @
+
+    if id and cached = cache[id]
+      return cached
+
+    else
+
+      model = new @ attrs, options
+
+      unless model._validate attrs, options
+        @trigger 'invalid', @, attrs, options
+        return false
+
+      cache[id] = model if id
+
+      model
 
   initialize: (attributes, options) ->
 
