@@ -2,15 +2,22 @@ module.exports =
 
   init: ->
 
-    window._ = require 'underscore'
-    window.$ = window.jQuery = require 'jquery'
+    loader = require './loader'
 
-    window.Backbone = require 'backbone'
+    console.warn 'init'
 
-    Backbone.$ = $
+    # global._ = require 'underscore'
 
-    window.moment = require 'moment'
+    # global.$ = global.jQuery = require 'jquery'
 
-    require 'select2'
+    # global.Backbone = require 'backbone'
 
-    require('core/components/react').init()
+    # global.Backbone.$ = global.$
+
+    # global.moment = require 'moment'
+
+    # require 'select2'
+
+    # require('core/components/react').init()
+
+module.exports.init()
