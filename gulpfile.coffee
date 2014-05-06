@@ -2,39 +2,38 @@ gulp = require 'gulp'
 source = require 'vinyl-source-stream'
 watchify = require 'watchify'
 duration = require 'gulp-duration'
+_ = require 'underscore'
 karma = require('karma').server
+glob = require 'glob'
+
+browserifyOptions =
+  extensions: ['.coffee']
 
 gulp.task 'test', ->
 
   karma.start
-    frameworks: ['mocha', 'chai']
-    # frameworks: ['mocha', 'chai', 'chai-jquery', 'sinon-chai']
+    frameworks: ['mocha', 'chai', 'chai-jquery', 'sinon-chai']
     browsers: ['PhantomJS']
     files: [
       'test/helpers/phantomjs-shim.js'
-      'dist/bundle.js'
-      'dist/react.js'
-      'test/gulp-test.coffee'
+      'dist/tests.js'
     ]
-    singleRun: true
-    coffeePreprocessor:
-      options:
-        bare: true
-        sourceMap: false
-    preprocessors:
-      'test/**/*.coffee': ['coffee']
+    autoWatch: true
+    singleRun: false
 
-gulp.task 'watch', ->
+gulp.task 'test-build', ->
 
-  bundler = watchify
-    entries: ['./app/index.coffee']
-    extensions: ['.coffee']
-    exposeAll: true
+  # testFiles = glob.sync './app/**/__tests__/*.{js,coffee}'
 
-  .require './app/index.coffee',
-    expose: 'core'
+  opts = _
+    entries: [
+      './test/index.coffee'
+      './app/components/__tests__/react-test.coffee'
+      './app/components/bootstrap/dropdown/__tests__/dropdown-item-test.coffee'
+    ]
+  .defaults browserifyOptions
 
-  .transform 'coffeeify'
+  bundler = watchify opts
 
   rebundle = ->
 
@@ -44,7 +43,7 @@ gulp.task 'watch', ->
     .on 'error', (e) ->
       console.error 'Error', e
 
-    .pipe source 'bundle.js'
+    .pipe source 'tests.js'
     .pipe duration 'rebunding bundle'
     .pipe gulp.dest './dist'
 
@@ -52,4 +51,4 @@ gulp.task 'watch', ->
 
   return rebundle()
 
-gulp.task 'default', ['watch']
+gulp.task 'default', ['test-build']

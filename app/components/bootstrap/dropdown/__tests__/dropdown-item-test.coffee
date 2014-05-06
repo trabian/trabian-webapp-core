@@ -1,8 +1,8 @@
-{ DropdownItem } = require 'core/components/bootstrap/dropdown'
-
 describe 'DropdownItem', ->
 
   it 'should create a listitem with the included children', ->
+
+    { DropdownItem } = require '../index'
 
     { $el } = renderIntoDocument DropdownItem {},
       'Testing'

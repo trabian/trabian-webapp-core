@@ -1,4 +1,4 @@
-PropTransferClass = require 'core/components/utils/prop-transfer'
+PropTransferClass = require '../../utils/prop-transfer'
 
 module.exports = React.createClass
 

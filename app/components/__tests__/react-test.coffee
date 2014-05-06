@@ -1,3 +1,5 @@
+React = require 'react'
+
 describe 'React.createBackboneClass', ->
 
   it 'should add the Backbone mixin', ->

@@ -1,8 +1,8 @@
-require('core').init()
+require('../app').init()
 
-require 'stickit'
+React = require 'react'
 
-renderIntoDocument = (instance, callback) ->
+global.renderIntoDocument = (instance, callback) ->
 
   div = document.createElement 'div'
 

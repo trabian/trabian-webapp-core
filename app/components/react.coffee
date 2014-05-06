@@ -1,11 +1,11 @@
+React = require 'react'
+
 module.exports =
 
   init: ->
 
-    return unless React?
-
-    BackboneMixin = require 'core/components/mixins/backbone'
-    DeferredMixin = require 'core/components/mixins/deferred'
+    BackboneMixin = require './mixins/backbone'
+    DeferredMixin = require './mixins/deferred'
 
     React.createBackboneClass = (spec) ->
 
