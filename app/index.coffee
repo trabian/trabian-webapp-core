@@ -12,7 +12,7 @@ module.exports =
 
     global.moment = require 'moment'
 
-    global.React = require 'react'
+    global.React = require 'react/addons'
 
     unless typeof window is 'undefined'
       require 'select2'

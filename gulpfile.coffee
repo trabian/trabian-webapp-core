@@ -9,7 +9,7 @@ glob = require 'glob'
 browserifyOptions =
   extensions: ['.coffee']
 
-gulp.task 'test', ->
+gulp.task 'test-run', ->
 
   karma.start
     frameworks: ['mocha', 'chai', 'chai-jquery', 'sinon-chai']
@@ -19,18 +19,14 @@ gulp.task 'test', ->
       'dist/tests.js'
     ]
     autoWatch: true
-    singleRun: false
 
 gulp.task 'test-build', ->
 
-  # testFiles = glob.sync './app/**/__tests__/*.{js,coffee}'
+  testFiles = glob.sync './app/**/__tests__/**/*.{js,coffee}'
+  testFiles.unshift './test/index.coffee'
 
   opts = _
-    entries: [
-      './test/index.coffee'
-      './app/components/__tests__/react-test.coffee'
-      './app/components/bootstrap/dropdown/__tests__/dropdown-item-test.coffee'
-    ]
+    entries: testFiles
   .defaults browserifyOptions
 
   bundler = watchify opts
@@ -51,4 +47,5 @@ gulp.task 'test-build', ->
 
   return rebundle()
 
+gulp.task 'test', ['test-build', 'test-run']
 gulp.task 'default', ['test-build']
