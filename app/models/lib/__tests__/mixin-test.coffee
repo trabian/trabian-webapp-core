@@ -1,3 +1,5 @@
+{ BaseModel } = require 'core/models/base'
+
 describe 'classMixin', ->
 
   it 'should extend the prototype with properties added by the mixin', ->

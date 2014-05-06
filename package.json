@@ -38,7 +38,7 @@
   "dependencies": {
     "underscore": "~1.6.0",
     "jquery": "~1.11.1",
-    "backbone": "~1.1.2",
+    "backbone": "1.1.2",
     "moment": "~2.6.0",
     "select2": "~3.4.5",
     "envify": "~1.2.1",
