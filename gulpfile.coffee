@@ -18,6 +18,8 @@ gulp.task 'test-run', ->
       'test/helpers/phantomjs-shim.js'
       'dist/tests.js'
     ]
+    preprocessors:
+      'dist/tests.js': ['sourcemap']
     autoWatch: true
 
 gulp.task 'test-build', ->
