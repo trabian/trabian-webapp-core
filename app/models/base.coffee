@@ -1,4 +1,4 @@
-Chaplin = require 'chaplin'
+SyncMachine = require 'core/lib/sync_machine'
 
 EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
@@ -16,14 +16,14 @@ Backbone.Validation.configure
 
 _.extend Backbone.Model.prototype, Backbone.Validation.mixin
 
-class BaseModel extends Chaplin.Model
+class BaseModel extends Backbone.Model
 
   @mixin = classMixin
 
   @mixin EventExtensions,
     RelationExtensions,
     LinkExtensions,
-    Chaplin.SyncMachine
+    SyncMachine
 
   initialize: (attributes, options) ->
 
@@ -85,7 +85,7 @@ class BaseModel extends Chaplin.Model
 
     super method, model, options
 
-class BaseCollection extends Chaplin.Collection
+class BaseCollection extends Backbone.Collection
 
   @mixin = classMixin
 
@@ -94,7 +94,7 @@ class BaseCollection extends Chaplin.Collection
     AllowOnlyOneExtensions,
     CollectionLinkExtensions,
     PaginationExtensions,
-    Chaplin.SyncMachine
+    SyncMachine
 
   initialize: (attributes, options) ->
 

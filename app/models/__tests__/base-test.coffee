@@ -284,8 +284,7 @@ describe 'Base collection', ->
 
           done()
 
-      @server.respond()
-
+      _.times 2, => @server.respond()
 
   describe 'fetch', ->
 
