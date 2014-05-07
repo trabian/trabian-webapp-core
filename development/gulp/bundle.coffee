@@ -19,9 +19,9 @@ module.exports = (options) ->
   _(options).defaults
     dist: './dist'
 
-  rebundle = ->
+  options.configBrowserify? bundler
 
-    options.configBrowserify? bundler
+  rebundle = ->
 
     bundler.bundle
       debug: options.debug
