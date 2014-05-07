@@ -21,6 +21,8 @@ module.exports = (options) ->
 
   rebundle = ->
 
+    options.configBrowserify? bundler
+
     bundler.bundle
       debug: options.debug
 
