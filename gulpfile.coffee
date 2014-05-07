@@ -6,6 +6,7 @@ _ = require 'underscore'
 karma = require('karma').server
 glob = require 'glob'
 gutil = require 'gulp-util'
+coffeelint = require 'gulp-coffeelint'
 
 bundle = require './development/gulp/bundle'
 
@@ -36,4 +37,14 @@ gulp.task 'test', ['build:tests'], ->
     preprocessors:
       'dist/tests.js': ['sourcemap']
 
-gulp.task 'default', ['test']
+gulp.task 'lint', ->
+
+  gulp.src(['app/**/*.coffee', '!app/**/__tests__/**'])
+    .pipe coffeelint()
+    .pipe coffeelint.reporter()
+
+  gulp.src(['test/**/*.coffee', 'app/**/__tests__/**/*.coffee'])
+    .pipe coffeelint(max_line_length: { level: 'ignore' })
+    .pipe coffeelint.reporter()
+
+gulp.task 'default', ['lint', 'test']
