@@ -18,24 +18,23 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "gulp": "~3.6.2",
-    "coffee-script": "~1.7.1",
-    "vinyl-source-stream": "~0.1.1",
-    "gulp-duration": "0.0.0",
-    "coffeeify": "~0.6.0",
-    "karma": "~0.12.14",
-    "karma-phantomjs-launcher": "~0.1.4",
-    "mocha": "~1.18.2",
-    "karma-mocha": "~0.1.3",
-    "karma-chai-plugins": "~0.2.1",
-    "browserify": "~3.46.0",
     "aliasify": "~1.4.0",
-    "watchify": "~0.8.3",
+    "browserify": "~3.46.0",
+    "coffee-script": "~1.7.1",
+    "coffeeify": "~0.6.0",
     "glob": "~3.2.9",
-    "karma-coffee-preprocessor": "~0.2.1",
-    "karma-sourcemap-loader": "^0.2.0",
+    "gulp": "^3.6.2",
+    "gulp-coffeelint": "^0.3.2",
+    "gulp-duration": "0.0.0",
     "gulp-util": "^2.2.14",
-    "gulp-coffeelint": "^0.3.2"
+    "karma": "~0.12.14",
+    "karma-chai-plugins": "~0.2.1",
+    "karma-coffee-preprocessor": "~0.2.1",
+    "karma-mocha": "~0.1.3",
+    "karma-phantomjs-launcher": "~0.1.4",
+    "karma-sourcemap-loader": "^0.2.0",
+    "mocha": "~1.18.2",
+    "vinyl-source-stream": "~0.1.1"
   },
   "dependencies": {
     "underscore": "~1.6.0",
@@ -49,7 +48,8 @@
     "backbone.validation": "thedersen/backbone.validation#v0.9.1",
     "page": "~1.3.7",
     "sinon": "cjohansen/Sinon.JS#v1.7.1",
-    "uritemplates": "fxa/uritemplate-js"
+    "uritemplates": "fxa/uritemplate-js",
+    "watchify": "~0.8.3"
   },
   "browserify": {
     "transform": [
