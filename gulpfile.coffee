@@ -5,49 +5,35 @@ duration = require 'gulp-duration'
 _ = require 'underscore'
 karma = require('karma').server
 glob = require 'glob'
+gutil = require 'gulp-util'
 
-browserifyOptions =
-  extensions: ['.coffee']
+bundle = require './development/gulp/bundle'
 
-gulp.task 'test-run', ->
+gulp.task 'build:tests', ->
+
+  testFiles = glob.sync './app/**/__tests__/**/*.{js,coffee}'
+  testFiles.unshift './test/index.coffee'
+
+  bundle
+    entries: testFiles
+    out: 'tests.js'
+    watch: !! gutil.env.watch
+    debug: true
+
+gulp.task 'test', ['build:tests'], ->
+
+  watch = !! gutil.env.watch
 
   karma.start
     frameworks: ['mocha', 'chai', 'chai-jquery', 'sinon-chai']
     browsers: ['PhantomJS']
+    autoWatch: watch
+    singleRun: not watch
     files: [
       'test/helpers/phantomjs-shim.js'
       'dist/tests.js'
     ]
     preprocessors:
       'dist/tests.js': ['sourcemap']
-    autoWatch: true
 
-gulp.task 'test-build', ->
-
-  testFiles = glob.sync './app/**/__tests__/**/*.{js,coffee}'
-  testFiles.unshift './test/index.coffee'
-
-  opts = _
-    entries: testFiles
-  .defaults browserifyOptions
-
-  bundler = watchify opts
-
-  rebundle = ->
-
-    bundler.bundle
-      debug: true
-
-    .on 'error', (e) ->
-      console.error 'Error', e
-
-    .pipe source 'tests.js'
-    .pipe duration 'rebunding bundle'
-    .pipe gulp.dest './dist'
-
-  bundler.on 'update', rebundle
-
-  return rebundle()
-
-gulp.task 'test', ['test-build', 'test-run']
-gulp.task 'default', ['test-build']
+gulp.task 'default', ['test']
