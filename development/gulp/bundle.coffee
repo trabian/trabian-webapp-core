@@ -29,9 +29,9 @@ module.exports = (options) ->
     .on 'error', (err) ->
       console.warn 'error', err
 
-    .pipe source options.out
-    .pipe duration 'rebunding bundle'
-    .pipe gulp.dest options.dist
+    .pipe(source options.out)
+    .pipe(duration 'rebunding bundle')
+    .pipe(gulp.dest options.dist)
 
   if options.watch
     bundler.on 'update', rebundle
