@@ -2,6 +2,8 @@ IdentityCache = require './identity_cache'
 
 module.exports =
 
+  cache: IdentityCache
+
   _prepareModel: (attrs, options = {}) ->
 
     if attrs instanceof Backbone.Model
