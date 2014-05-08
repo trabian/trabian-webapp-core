@@ -2,7 +2,6 @@ gulp = require 'gulp'
 source = require 'vinyl-source-stream'
 watchify = require 'watchify'
 duration = require 'gulp-duration'
-_ = require 'underscore'
 karma = require('karma').server
 glob = require 'glob'
 gutil = require 'gulp-util'
