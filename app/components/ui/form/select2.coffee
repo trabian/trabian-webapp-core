@@ -28,6 +28,12 @@ module.exports = React.createClass
 
   componentDidUpdate: (prevProps, prevState) ->
 
+    $rootNode = $ @getDOMNode()
+
+    if @props.defaultValue and not $rootNode.select2('val')
+
+      $rootNode.select2 'val', @props.defaultValue
+
     value = @props.valueLink?.value
 
     if value?
@@ -52,4 +58,3 @@ module.exports = React.createClass
         @props.children
 
       ]
-
