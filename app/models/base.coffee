@@ -10,6 +10,8 @@ AllowOnlyOneExtensions = require './extensions/allow-only-one'
 PaginationExtensions = require './extensions/pagination'
 { classMixin } = require './lib/mixin'
 
+Backbone = require 'backbone'
+
 require 'backbone-validation'
 
 Backbone.Validation.configure

@@ -1,3 +1,5 @@
+var Backbone = require('backbone');
+
 module.exports = {
     _subscribe: function(model) {
         if (!model) {

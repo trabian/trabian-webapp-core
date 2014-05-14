@@ -9,7 +9,7 @@ module.exports =
     # Remove any previously-mounted callbacks
     page.callbacks = []
 
-    page.base @props.routeBase
+    page.base @props.routeBase or ''
 
     page '*', (ctx, next) =>
       ctx.component = @
@@ -17,7 +17,8 @@ module.exports =
 
     @props.addRoutes? page
 
-    page.start()
+    page.start
+      dispatch: true
 
   componentWillUnmount: ->
     page.stop()

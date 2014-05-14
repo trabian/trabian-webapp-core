@@ -57,12 +57,9 @@ module.exports = (grunt) ->
         options:
           alias: [
             'bower_components/underscore/underscore.js:underscore'
-            'bower_components/backbone/backbone.js:backbone'
-            'bower_components/backbone.stickit/backbone.stickit.js:stickit'
             'bower_components/jquery/dist/jquery.js:jquery'
             'bower_components/uritemplates/bin/uritemplate.js:uritemplate'
             'bower_components/select2/select2.js:select2'
-            'bower_components/backbone.validation/dist/backbone-validation.js:backbone-validation'
             'bower_components/moment/moment.js:moment'
           ]
 
@@ -71,7 +68,7 @@ module.exports = (grunt) ->
         dest: '.tmp/app.js'
         options:
           debug: true
-          external: ['backbone', 'underscore', 'jquery', 'stickit', 'uritemplate', 'backbone-validation', 'moment', 'select2']
+          external: ['underscore', 'jquery', 'uritemplate', 'moment', 'select2']
 
           # Chaplin needs the ability to reference modules within the app, so
           # it needs to be included in the same .js file as the app. For
@@ -79,6 +76,7 @@ module.exports = (grunt) ->
           # for a route by requiring app/controllers/{controller_name}.
           alias: [
             'bower_components/chaplin/chaplin.js:chaplin'
+            'bower_components/backbone/backbone.js:backbone'
           ]
 
           # Allow direct module reference to any files with the following

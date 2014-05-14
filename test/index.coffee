@@ -1,7 +1,5 @@
 require('core').init()
 
-require 'stickit'
-
 renderIntoDocument = (instance, callback) ->
 
   div = document.createElement 'div'

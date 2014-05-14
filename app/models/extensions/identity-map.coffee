@@ -1,5 +1,7 @@
 IdentityCache = require './identity_cache'
 
+Backbone = require 'backbone'
+
 module.exports =
 
   _prepareModel: (attrs, options = {}) ->

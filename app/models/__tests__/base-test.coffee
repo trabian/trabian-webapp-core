@@ -109,10 +109,10 @@ describe 'Base model', ->
   describe 'sync', ->
 
     beforeEach ->
-      sinon.spy Backbone, 'sync'
+      sinon.spy BaseModel::, 'sync'
 
     afterEach ->
-      Backbone.sync.restore()
+      BaseModel::sync.restore()
 
     it 'should pass add the method to the "options" object', ->
 
@@ -124,7 +124,7 @@ describe 'Base model', ->
 
       project.sync 'create', project, {}
 
-      options = Backbone.sync.getCall(0).args[2]
+      options = BaseModel::sync.getCall(0).args[2]
 
       options.syncMethod.should.equal 'create'
 

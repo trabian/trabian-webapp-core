@@ -5,7 +5,7 @@ module.exports =
     window._ = require 'underscore'
     window.$ = window.jQuery = require 'jquery'
 
-    window.Backbone = require 'backbone'
+    Backbone = require 'backbone'
 
     Backbone.$ = $
 
