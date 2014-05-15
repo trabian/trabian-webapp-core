@@ -54,3 +54,12 @@ module.exports =
 
     original.slice(0, length) + truncateStr
 
+  pluralize: (count, singular, plural="#{singular}s") ->
+
+    switch +count
+      when 0
+        "No #{plural}"
+      when 1
+        "#{count} #{singular}"
+      else
+        "#{count} #{plural}"

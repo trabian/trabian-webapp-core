@@ -67,3 +67,17 @@ describe 'Text formatters', ->
 
     it 'should allow a custom truncate string', ->
       formats.text.truncate('a very long string', 10, '>>>').should.equal 'a very lon>>>'
+
+  describe 'pluralize', ->
+
+    it 'should return "No <plural>" for 0 items', ->
+      formats.text.pluralize(0, 'donut', 'donuts').should.equal 'No donuts'
+
+    it 'should return "1 <singular>" for 1 item', ->
+      formats.text.pluralize(1, 'donut', 'donuts').should.equal '1 donut'
+
+    it 'should return "<count> <plural>" for 2+ items', ->
+      formats.text.pluralize(5, 'donut', 'donuts').should.equal '5 donuts'
+
+    it 'should add an "s" to the end of the singular for plural by default', ->
+      formats.text.pluralize(5, 'donut').should.equal '5 donuts'
