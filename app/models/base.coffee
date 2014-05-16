@@ -17,26 +17,18 @@ require 'backbone-validation'
 Backbone.Validation.configure
   forceUpdate: true
 
-# Note: the 'memo' hash may build up over the lifetime of a page view, but I
-# suspect it won't be a significant overhead as its only storing the promise
-# and not the underlying model or collection.
-memoizeFetch = (originalFetch) ->
+cachePromise = (originalFetch) ->
 
-  lastKey = _.uniqueId 'fetcher'
+  currentPromise = null
 
-  _.memoize ->
+  return (options) ->
+
+    return currentPromise if currentPromise and not options?.force
 
     @beginSync()
 
-    originalFetch.apply(this, arguments).done =>
+    currentPromise = originalFetch.apply(this, arguments).done =>
       @finishSync()
-
-  , (options = {}) ->
-
-    if options.force
-      lastKey = _.uniqueId 'fetcher'
-    else
-      lastKey
 
 _.extend Backbone.Model.prototype, Backbone.Validation.mixin
 
@@ -77,7 +69,7 @@ class BaseModel extends Chaplin.Model
     if url = options?.url
       @url = url
 
-    @fetch = memoizeFetch @fetch
+    @fetch = cachePromise @fetch
 
     super
 
@@ -130,7 +122,7 @@ class BaseCollection extends Chaplin.Collection
     if url = options?.url
       @url = url
 
-    @fetch = memoizeFetch @fetch
+    @fetch = cachePromise @fetch
 
     super
 
