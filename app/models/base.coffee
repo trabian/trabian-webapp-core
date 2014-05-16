@@ -17,6 +17,27 @@ require 'backbone-validation'
 Backbone.Validation.configure
   forceUpdate: true
 
+# Note: the 'memo' hash may build up over the lifetime of a page view, but I
+# suspect it won't be a significant overhead as its only storing the promise
+# and not the underlying model or collection.
+memoizeFetch = (originalFetch) ->
+
+  lastKey = _.uniqueId 'fetcher'
+
+  _.memoize ->
+
+    @beginSync()
+
+    originalFetch.apply(this, arguments).done =>
+      @finishSync()
+
+  , (options = {}) ->
+
+    if options.force
+      lastKey = _.uniqueId 'fetcher'
+    else
+      lastKey
+
 _.extend Backbone.Model.prototype, Backbone.Validation.mixin
 
 class BaseModel extends Chaplin.Model
@@ -56,29 +77,11 @@ class BaseModel extends Chaplin.Model
     if url = options?.url
       @url = url
 
+    @fetch = memoizeFetch @fetch
+
     super
 
-    # _(this).extend $.Deferred()
-
     @buildRelations()
-
-    # Resolve the model the first time it's synced (via finishSync())
-    # @synced @resolve
-
-  fetch: (options = {}) ->
-
-    _(options).defaults
-      force: false
-
-    if options.force or not @isSynced()
-
-      @beginSync()
-
-      super.done => @finishSync()
-
-    else
-
-      $.Deferred (d) -> d.resolve()
 
   # For individual model requests the data will be returned as the only
   # element of an array at `resourceName`. For example, if resourceName is
@@ -127,6 +130,8 @@ class BaseCollection extends Chaplin.Collection
     if url = options?.url
       @url = url
 
+    @fetch = memoizeFetch @fetch
+
     super
 
     # _(this).extend $.Deferred()
@@ -165,21 +170,6 @@ class BaseCollection extends Chaplin.Collection
       val
     else
       []
-
-  fetch: (options = {}) ->
-
-    _(options).defaults
-      force: false
-
-    if options.force or not @isSynced()
-
-      @beginSync()
-
-      super.done => @finishSync()
-
-    else
-
-      $.Deferred (d) -> d.resolve()
 
   validateAll: ->
     @every (model) -> model.isValid true

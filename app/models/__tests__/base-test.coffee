@@ -147,6 +147,46 @@ describe 'Base model', ->
 
       project.isValid(true).should.be.true
 
+  describe 'fetch', ->
+
+    beforeEach ->
+
+      class Project extends BaseModel
+
+        urlRoot: '/projects'
+
+      @project = new Project
+
+    it 'should hit the backend by default', (done) ->
+
+      @project.sync = ->
+        done()
+
+      @project.fetch()
+
+    it 'should return the same fetch promise if a promise is active and force is false', ->
+
+      promise = $.Deferred()
+      calls = 0
+      resolves = 0
+
+      @project.sync = ->
+        calls++
+        promise
+
+      @project.fetch().done ->
+        resolves++
+
+      @project.fetch().done ->
+        resolves++
+
+      calls.should.equal 1
+      resolves.should.equal 0
+
+      promise.resolve()
+
+      resolves.should.equal 2
+
 describe 'Base collection', ->
 
   describe 'parse', ->
@@ -315,7 +355,6 @@ describe 'Base collection', ->
 
       @server.respond()
 
-
   describe 'fetch', ->
 
     beforeEach ->
@@ -339,14 +378,71 @@ describe 'Base collection', ->
 
       @projects.fetch()
 
+    it 'should return the same fetch promise if a promise is active and force is false', ->
+
+      promise = $.Deferred()
+      calls = 0
+      resolves = 0
+
+      @projects.sync = ->
+        calls++
+        promise
+
+      @projects.fetch().done ->
+        resolves++
+
+      @projects.fetch().done ->
+        resolves++
+
+      calls.should.equal 1
+      resolves.should.equal 0
+
+      promise.resolve()
+
+      resolves.should.equal 2
+
+      @projects.fetch force: true
+
+      calls.should.equal 2
+
+      @projects.fetch force: true
+
+      calls.should.equal 3
+
+      # Don't force
+      @projects.fetch silent: true
+
+      calls.should.equal 3
+
+      # Make sure the memoization is happening at the object and not the class level
+
+      otherProjects = new @classes.ProjectCollection
+
+      otherProjectCalls = 0
+
+      otherProjects.sync = ->
+        otherProjectCalls++
+        $.Deferred()
+
+      otherProjects.fetch force: true
+
+      otherProjectCalls.should.equal 1
+
+      otherProjects.fetch()
+
+      otherProjectCalls.should.equal 1
+
     describe 'synced collection', ->
 
-      beforeEach ->
-
-        @projects.beginSync()
-        @projects.finishSync()
-
       it 'should not hit the backend if the collection is already synced', (done) ->
+
+        @projects.sync = ->
+          $.Deferred (d) -> d.resolve()
+
+        @projects.fetch()
+
+        @projects.sync = ->
+          $.Deferred (d) -> d.reject()
 
         @projects.fetch().done ->
           done()
