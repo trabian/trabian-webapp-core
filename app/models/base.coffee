@@ -1,5 +1,3 @@
-Chaplin = require 'chaplin'
-
 EventExtensions = require 'core/lib/event_extensions'
 RelationExtensions = require './relations'
 LinkExtensions = require './links'
@@ -8,6 +6,7 @@ IdentityMapExtensions = require './extensions/identity-map'
 IdentityCache = require 'core/models/extensions/identity_cache'
 AllowOnlyOneExtensions = require './extensions/allow-only-one'
 PaginationExtensions = require './extensions/pagination'
+SyncMachine = require './extensions/sync-machine'
 { classMixin } = require './lib/mixin'
 
 Backbone = require 'backbone'
@@ -32,14 +31,14 @@ cachePromise = (originalFetch) ->
 
 _.extend Backbone.Model.prototype, Backbone.Validation.mixin
 
-class BaseModel extends Chaplin.Model
+class BaseModel extends Backbone.Model
 
   @mixin = classMixin
 
   @mixin EventExtensions,
     RelationExtensions,
     LinkExtensions,
-    Chaplin.SyncMachine
+    SyncMachine
 
   @findOrCreate: (attrs, options={}) ->
 
@@ -106,7 +105,7 @@ class BaseModel extends Chaplin.Model
 
     super method, model, options
 
-class BaseCollection extends Chaplin.Collection
+class BaseCollection extends Backbone.Collection
 
   @mixin = classMixin
 
@@ -115,7 +114,7 @@ class BaseCollection extends Chaplin.Collection
     AllowOnlyOneExtensions,
     CollectionLinkExtensions,
     PaginationExtensions,
-    Chaplin.SyncMachine
+    SyncMachine
 
   initialize: (attributes, options) ->
 

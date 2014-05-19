@@ -75,7 +75,6 @@ module.exports = (grunt) ->
           # example, the Chaplin dispatcher finds the correct controller class
           # for a route by requiring app/controllers/{controller_name}.
           alias: [
-            'bower_components/chaplin/chaplin.js:chaplin'
             'bower_components/backbone/backbone.js:backbone'
           ]
 
@@ -130,6 +129,9 @@ module.exports = (grunt) ->
           ]
 
     coffeelint:
+      options:
+        max_line_length:
+          level: 'ignore'
       app: [
         'app/**/*.coffee'
         '!app/**/__tests__/**'
@@ -140,9 +142,6 @@ module.exports = (grunt) ->
             'test/**/*.coffee'
             'app/**/__tests__/**/*.coffee'
           ]
-        options:
-          max_line_length:
-            level: 'ignore'
 
     karma:
       options:
