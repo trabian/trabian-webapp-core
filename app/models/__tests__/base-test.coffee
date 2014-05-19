@@ -14,7 +14,12 @@ describe 'Base model', ->
 
       class Project extends BaseModel
 
+      class Task extends BaseModel
+
       project = new Project
+        id: 1
+
+      task = new Task
         id: 1
 
       cache = IdentityCache.getOrCreate Project
@@ -22,6 +27,8 @@ describe 'Base model', ->
       cache[1] = project
 
       Project.findOrCreate(id: 1).should.equal project
+
+      Task.findOrCreate(id: 1).should.not.equal project
 
     it 'should return a new model if the cache has no record', ->
 
