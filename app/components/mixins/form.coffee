@@ -32,6 +32,8 @@ module.exports =
 
       saveModel = @saveModel or @props.model.save
 
+      @beforeSave?()
+
       saveModel.call(@props.model).then =>
         @onSave?()
       .fail (response) =>
