@@ -28,16 +28,7 @@ module.exports = React.createClass
 
   componentDidUpdate: (prevProps, prevState) ->
 
-    $rootNode = $ @getDOMNode()
-
-    if @props.defaultValue and not $rootNode.select2('val')
-
-      $rootNode.select2 'val', @props.defaultValue
-
-    value = @props.valueLink?.value
-
-    if value?
-      $(@getDOMNode()).select2 'val', value
+    $(@getDOMNode()).select2 'val', @props.valueLink?.value || @props.defaultValue
 
   componentWillUnmount: ->
     $(@getDOMNode()).select2 'destroy'

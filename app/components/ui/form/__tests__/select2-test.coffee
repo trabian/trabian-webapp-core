@@ -74,3 +74,16 @@ describe 'Select2 Component', ->
     , @options
 
     $el.select2('container').length.should.equal 1
+
+  it "should allow a null defaultValue on update", ->
+
+    { $el, component } = renderIntoDocument Select2Component
+      defaultValue: 'test2'
+    , @options
+
+    component.setProps
+      defaultValue: null
+
+    $select = $el.parent().find 'select'
+
+    should.not.exist $select.val()

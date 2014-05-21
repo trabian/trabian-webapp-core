@@ -49,6 +49,16 @@ describe 'Text formatters', ->
       for original, expected of cases
         formats.text.parameterize(original, '_').should.equal expected
 
+  describe 'maskId', ->
+    it 'should add the correct number of stars to the beginning', ->
+      formats.text.maskId('foobar', 5, 3).should.equal '*****bar'
+
+    it 'should mask everything if revealed is 0', ->
+      formats.text.maskId('foobar', 3, 0).should.equal '***'
+
+    it 'should unmask anything shorter than revealed when unmaskIfShort given', ->
+      formats.text.maskId('foobar', 0, 10, true).should.equal 'foobar'
+
   describe 'addLineBreaks', ->
 
     it 'should handle single lined text without change', ->

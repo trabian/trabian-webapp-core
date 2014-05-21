@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "chaplin": "~0.11.1",
-    "underscore": "~1.5.1",
+    "underscore": "~1.6.0",
     "backbone": "1.1.2",
     "jquery": "1.11.0",
     "moment": "~2.5.1",
