@@ -36,17 +36,11 @@ module.exports =
 
       saveModel.call(@props.model).then =>
         @onSave?()
-      .fail (response) =>
-
-        console.warn 'failed on submit', arguments, _.result @props.model, 'url'
+      .fail (errorMessage) =>
 
         if @isMounted()
 
-          if message = response.responseJSON?.error?.message or
-              response.responseJSON?.data?.error?.message
-
-            @setState
-              errorMessage: message
+          @setState { errorMessage }
 
       .always =>
 
