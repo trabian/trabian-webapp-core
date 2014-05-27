@@ -38,6 +38,20 @@ describe 'Base model', ->
 
       Project.findOrCreate(id: 1).get('id').should.equal 1
 
+    it 'should cache based on the cacheIdAttribute when given', ->
+
+      class Project extends BaseModel
+        cacheIdAttribute: 'cache_id_attr'
+
+      project = new Project
+        cache_id_attr: 1
+
+      cache = IdentityCache.getOrCreate Project
+
+      cache[1] = project
+
+      Project.findOrCreate(cache_id_attr: 1).should.equal project
+
   describe 'parse', ->
 
     beforeEach ->

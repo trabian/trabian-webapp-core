@@ -42,9 +42,7 @@ class BaseModel extends Backbone.Model
 
   @findOrCreate: (attrs, options={}) ->
 
-    idAttribute = @::idAttribute
-
-    id = @::parse(attrs)[idAttribute]
+    id = @::parse(attrs)[@::cacheIdAttribute ? @::idAttribute]
 
     cache = IdentityCache.getOrCreate @
 
