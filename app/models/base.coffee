@@ -51,7 +51,7 @@ class BaseModel extends Backbone.Model
 
     else
 
-      model = new @ attrs, options
+      model = new @ attrs, _(options).extend parse: true
 
       unless model._validate attrs, options
         @trigger 'invalid', @, attrs, options
