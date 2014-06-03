@@ -48,9 +48,10 @@ module.exports = React.createClass
 
           @props.children
 
-          div { className: 'modal-footer' },
+          unless @props.noFooter
+            div { className: 'modal-footer' },
 
-            button
-              className: 'btn btn-default'
-              onClick: @handleCancel
-            , 'Cancel'
+              button
+                className: 'btn btn-default'
+                onClick: @handleCancel
+              , 'Cancel'
