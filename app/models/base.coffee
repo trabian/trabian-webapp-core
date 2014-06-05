@@ -16,6 +16,11 @@ require 'backbone-validation'
 Backbone.Validation.configure
   forceUpdate: true
 
+# Matches .01 and 123., unlike the defaults.
+# See https://github.com/thedersen/backbone.validation/pull/230/files
+_(Backbone.Validation.patterns).extend
+  number: /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d*)?$/
+
 cachePromise = (originalFetch) ->
 
   currentPromise = null
