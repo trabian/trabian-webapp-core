@@ -28,6 +28,8 @@ module.exports =
 
   monthDayYear: (date) -> @format date, 'MMM Do, YYYY'
 
+  yearMonthDay: (date) -> @format date, 'YYYYMMDD'
+
   dayName: (day) ->
     moment().lang()._weekdays[+day]
 
