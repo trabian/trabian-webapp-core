@@ -13,12 +13,14 @@ module.exports = React.createClass
     $(@getDOMNode()).off 'hidden', @handleHidden
 
   close: ->
-    @props.onClose?()
+    @props.willClose?()
     $(@getDOMNode()).modal 'hide'
+    @props.didClose?()
 
   open: ->
-    @props.onOpen?()
+    @props.willOpen?()
     $(@getDOMNode()).modal 'show'
+    @props.didOpen?()
 
   handleCancel: (e) ->
     e.preventDefault()
