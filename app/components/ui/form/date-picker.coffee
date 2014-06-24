@@ -5,8 +5,8 @@ module.exports = React.createClass
 
   componentWillUpdate: (nextProps) ->
 
-    existingDate = @props.valueLink?.value
-    newDate = nextProps.valueLink?.value
+    existingDate = @props.valueLink?.value or @props.defaultValue
+    newDate = nextProps.valueLink?.value or nextProps.defaultValue
 
     unless (existingDate is newDate) or
         moment(existingDate).isSame newDate, 'day'
