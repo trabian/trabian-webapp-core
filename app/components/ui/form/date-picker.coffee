@@ -37,9 +37,11 @@ module.exports = React.createClass
 
         @props.valueLink?.requestChange e.date
 
+        @props.onChange? e.date
+
       @skipChangeEvent = false
 
-    if value = @props.valueLink?.value
+    if value = @props.valueLink?.value or @props.defaultValue
       date = moment value
       @$el.datepicker 'setDate', date.toDate()
       @$el.val date.format 'M/D/YY'
