@@ -329,7 +329,8 @@ describe 'Base collection', ->
 
       @server.respondWith /\/projects/, (req) ->
         req.respond 200, { "Content-Type": "application/json" }, JSON.stringify
-          data: {}
+          data:
+            id: _.uniqueId()
 
     afterEach ->
 
@@ -371,6 +372,22 @@ describe 'Base collection', ->
         project.save().then =>
 
           @projects.length.should.equal 1
+
+          done()
+
+      @server.respond()
+
+    it "shouldn't re-add the model if it's removed after being created", (done) ->
+
+      project = @projects.build()
+
+      project.save().then =>
+
+        @projects.length.should.equal 1
+
+        project.destroy().then =>
+
+          @projects.length.should.equal 0
 
           done()
 

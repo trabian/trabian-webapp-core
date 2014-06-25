@@ -143,7 +143,8 @@ class BaseCollection extends Backbone.Collection
 
     model = new @model attrs, collection: @
 
-    model.on 'sync', => @add model
+    model.on 'sync', _.once =>
+      @add model
 
   parse: (resp) ->
 
