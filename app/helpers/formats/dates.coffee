@@ -18,7 +18,7 @@ module.exports =
       'M/D/YY'
 
   shortFormatWithYear: (date) -> @format date, 'M/D/YYYY'
-  shortFormatWithShortYear: (date) -> @format date, 'M/D/YYYY'
+  shortFormatWithShortYear: (date) -> @format date, 'M/D/YY'
 
   toJSON: (date) -> @format date
 
