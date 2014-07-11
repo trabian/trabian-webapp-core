@@ -309,6 +309,23 @@ describe 'Base collection', ->
 
       (new ProjectCollection).url().should.equal '/projects'
 
+    it 'should not pass the url option to its children', ->
+
+      class Project extends BaseModel
+
+        urlRoot: '/projects'
+
+      class ProjectCollection extends BaseCollection
+
+        model: Project
+
+      projects = new ProjectCollection [
+        id: 1
+      ], url: '/some-projects'
+
+      _(projects).result('url').should.equal '/some-projects'
+      _(projects.get(1)).result('url').should.not.equal '/some-projects'
+
   describe 'build', ->
 
     beforeEach ->

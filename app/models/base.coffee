@@ -123,6 +123,7 @@ class BaseCollection extends Backbone.Collection
 
     if url = options?.url
       @url = url
+      delete options.url
 
     @fetch = cachePromise @fetch
 
