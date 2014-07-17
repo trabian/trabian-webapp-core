@@ -410,6 +410,22 @@ describe 'Base collection', ->
 
       @server.respond()
 
+    it.only 'should accept arguments for Backbone#add', (done) ->
+
+      project = @projects.build()
+
+      project.save().then =>
+
+        project2 = @projects.build {}, at: 0
+
+        project2.save().then =>
+
+          @projects.first().should.equal project2
+
+          done()
+
+      @server.respond()
+
   describe 'fetch', ->
 
     beforeEach ->

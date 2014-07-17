@@ -140,12 +140,12 @@ class BaseCollection extends Backbone.Collection
   url: ->
     _.result @model.prototype, 'urlRoot'
 
-  build: (attrs) ->
+  build: (attrs, opts={}) ->
 
     model = new @model attrs, collection: @
 
     model.on 'sync', _.once =>
-      @add model
+      @add model, opts
 
   parse: (resp) ->
 
