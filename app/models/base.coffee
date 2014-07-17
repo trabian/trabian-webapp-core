@@ -51,7 +51,7 @@ class BaseModel extends Backbone.Model
 
     cache = IdentityCache.getOrCreate @
 
-    if id and cached = cache[id]
+    if id and not @::skipCache and cached = cache[id]
       return cached
 
     else
@@ -62,7 +62,7 @@ class BaseModel extends Backbone.Model
         @trigger 'invalid', @, attrs, options
         return false
 
-      cache[id] = model if id
+      cache[id] = model if id and not @::skipCache
 
       model
 
