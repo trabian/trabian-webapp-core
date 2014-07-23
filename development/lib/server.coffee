@@ -101,7 +101,7 @@ module.exports = class FakeServer
       else
         matchElement
 
-      if key.name
+      if key?.name
         params[key.name] = val
       else
         (params.extra or= []).push val
