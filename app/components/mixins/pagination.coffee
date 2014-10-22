@@ -5,9 +5,12 @@ module.exports =
     @forceUpdate()
     @updateOn @props.model.fetchMore()
 
+  canLoadMore: ->
+    @props.model.canFetchMore() and not @props.count
+
   renderLoadMore: ->
 
-    if @props.model.canFetchMore() and not @props.count
+    if @canLoadMore()
 
       React.DOM.div
         className: 'panel-footer'
