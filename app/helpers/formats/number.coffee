@@ -2,7 +2,7 @@ module.exports =
 
   currency: (amount, includeCents = true) ->
 
-    return '' unless amount
+    return '' unless amount?
     return amount unless "#{amount}".match /^[-+]?([0-9]*|\d*\.\d{1}?\d*)$/
 
     precision = if includeCents then 2 else 0
