@@ -26,7 +26,7 @@ module.exports =
     dayFormat = if options?.shortDay? then 'ddd' else 'dddd'
     @format date, "#{dayFormat}, MMMM Do, YYYY", options.utc
 
-  monthDayYear: (date) -> @format date, 'MMM Do, YYYY'
+  monthDayYear: (date) -> @format date, 'MMM D, YYYY'
 
   yearMonthDay: (date) -> @format date, 'YYYYMMDD'
 
