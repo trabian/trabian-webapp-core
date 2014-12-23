@@ -31,7 +31,7 @@ cachePromise = (originalFetch) ->
 
     @beginSync()
 
-    currentPromise = originalFetch.apply(this, arguments).done =>
+    currentPromise = originalFetch.apply(this, arguments).always =>
       @finishSync()
 
 _.extend Backbone.Model.prototype, Backbone.Validation.mixin
