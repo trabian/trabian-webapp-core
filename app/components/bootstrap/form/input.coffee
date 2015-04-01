@@ -40,7 +40,6 @@ module.exports = React.createClass
           'form-control',
           @props.inputClass
         ].join ' '
-        autoFocus: @props.autoFocus
         disabled: @props.disabled
         id: @props.id
         key: 1
@@ -50,6 +49,11 @@ module.exports = React.createClass
         value: @props.value
         defaultValue: @props.defaultValue
         onChange: @props.onChange
+        autoComplete: @props.autoComplete
+        autoCorrect: @props.autoCorrect
+        autoCapitalize: @props.autoCapitalize
+        autoFocus: @props.autoFocus
+        spellCheck: @props.spellCheck
 
       @props.children
 

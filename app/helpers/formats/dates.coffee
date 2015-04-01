@@ -24,9 +24,11 @@ module.exports =
 
   longFormat: (date, options = {}) ->
     dayFormat = if options?.shortDay? then 'ddd' else 'dddd'
-    @format date, "#{dayFormat}, MMMM Do, YYYY", options.utc
+    @format date, "#{dayFormat}, MMMM D, YYYY", options.utc
 
-  monthDayYear: (date) -> @format date, 'MMM Do, YYYY'
+  monthDayYear: (date) -> @format date, 'MMM D, YYYY'
+
+  dayMonthDate: (date) -> @format date, 'ddd, MMM D'
 
   yearMonthDay: (date) -> @format date, 'YYYYMMDD'
 

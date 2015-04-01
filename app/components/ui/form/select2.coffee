@@ -20,9 +20,7 @@ module.exports = React.createClass
       formatSelection: @props.formatSelection
       escapeMarkup: @props.escapeMarkup
       dropdownCssClass: 'bootstrap'
-
-    if @props.defaultValue
-      $rootNode.select2 'val', @props.defaultValue
+      val: @props.valueLink?.value || @props.defaultValue
 
     $rootNode.on 'change', @_handleChange
 

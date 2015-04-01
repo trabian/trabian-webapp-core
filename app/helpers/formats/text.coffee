@@ -63,3 +63,8 @@ module.exports =
         "#{count} #{singular}"
       else
         "#{count} #{plural}"
+
+  # taken from underscore.string
+  stripTags: (original) ->
+    return '' unless original
+    String(original).replace /<\/?[^>]+>/g, ''

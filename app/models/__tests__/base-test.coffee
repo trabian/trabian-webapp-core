@@ -410,7 +410,7 @@ describe 'Base collection', ->
 
       @server.respond()
 
-    it.only 'should accept arguments for Backbone#add', (done) ->
+    it 'should accept arguments for Backbone#add', (done) ->
 
       project = @projects.build()
 

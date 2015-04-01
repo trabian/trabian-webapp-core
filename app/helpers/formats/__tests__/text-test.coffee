@@ -91,3 +91,22 @@ describe 'Text formatters', ->
 
     it 'should add an "s" to the end of the singular for plural by default', ->
       formats.text.pluralize(5, 'donut').should.equal '5 donuts'
+
+  describe 'stripTags', ->
+
+    it 'should remove simple tags', ->
+      formats.text.stripTags('a <a href="#">link</a>').should.equal 'a link'
+
+    it 'should remove <script> tags', ->
+      formats.text.stripTags('a <a href="#">link</a><script>alert("hello world!")</scr'+'ipt>').should.equal \
+        'a linkalert("hello world!")'
+
+    it 'should handle nested tags', ->
+      formats.text.stripTags('<html><body>hello world</body></html>').should.equal 'hello world'
+
+    it 'should convert numbers to strings', ->
+      formats.text.stripTags(123).should.equal '123'
+
+    it 'should convert empty string, null, or undefined to empty string', ->
+      _(['', null, undefined]).each (val) ->
+        formats.text.stripTags(val).should.equal ''
