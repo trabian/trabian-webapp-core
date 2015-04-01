@@ -2,12 +2,13 @@ module.exports = React.createClass
 
   getDefaultProps: ->
     showErrorMessage: true
+    styleClass: 'form-group'
 
   render: ->
 
-    classes = React.addons.classSet
-      'form-group': true
-      'has-error': !! @props.validationError
+    errorClass = 'has-error' if @props.validationError
+
+    classes = React.addons.classSet @props.styleClass, errorClass
 
     @transferPropsTo React.DOM.div
       className: classes
@@ -22,5 +23,3 @@ module.exports = React.createClass
         , @props.validationError
 
     ]
-
-

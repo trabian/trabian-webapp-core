@@ -49,11 +49,19 @@ module.exports =
             saving: false
             showValidationIssues: false
 
-  renderErrorMessage: ->
+  renderErrorMessage: ({ rawHTML } = {}) ->
 
     if @state.errorMessage
 
-      React.DOM.p
-        className: 'alert alert-danger'
-      , @state.errorMessage
+      if rawHTML
 
+        React.DOM.p
+          className: 'alert alert-danger'
+          dangerouslySetInnerHTML:
+            __html: @state.errorMessage
+
+      else
+
+        React.DOM.p
+          className: 'alert alert-danger'
+        , @state.errorMessage
