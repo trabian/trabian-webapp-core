@@ -10,6 +10,29 @@ module.exports = React.createClass
 
   render: ->
 
+    input = React.DOM.input
+      type: @props.type
+      className: [
+        'form-control',
+        @props.inputClass
+      ].join ' '
+      disabled: @props.disabled
+      id: @props.id
+      key: 1
+      ref: 'input'
+      placeholder: @props.placeholder
+      valueLink: @props.valueLink
+      value: @props.value
+      defaultValue: @props.defaultValue
+      onChange: @props.onChange
+      onFocus: @props.onFocus
+      onBlur: @props.onBlur
+      autoComplete: @props.autoComplete
+      autoCorrect: @props.autoCorrect
+      autoCapitalize: @props.autoCapitalize
+      autoFocus: @props.autoFocus
+      spellCheck: @props.spellCheck
+
     FormGroup
       className: @props.className
       validationError: @props.validationError
@@ -20,7 +43,10 @@ module.exports = React.createClass
         text = @props.label
 
         labelProps =
-          className: 'control-label'
+          className: [
+            'control-label',
+            @props.labelClass
+          ].join ' '
           htmlFor: @props.id if @props.id
           key: 0
 
@@ -33,27 +59,12 @@ module.exports = React.createClass
           _(labelProps).extend @props.label
 
         React.DOM.label labelProps, text
-
-      React.DOM.input
-        type: @props.type
-        className: [
-          'form-control',
-          @props.inputClass
-        ].join ' '
-        disabled: @props.disabled
-        id: @props.id
-        key: 1
-        ref: 'input'
-        placeholder: @props.placeholder
-        valueLink: @props.valueLink
-        value: @props.value
-        defaultValue: @props.defaultValue
-        onChange: @props.onChange
-        autoComplete: @props.autoComplete
-        autoCorrect: @props.autoCorrect
-        autoCapitalize: @props.autoCapitalize
-        autoFocus: @props.autoFocus
-        spellCheck: @props.spellCheck
+      if @props.horizontal
+        React.DOM.div
+          className: @props.inputContainerClass
+          [input]
+      else
+          input
 
       @props.children
 
