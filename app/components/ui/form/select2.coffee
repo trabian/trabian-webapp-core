@@ -26,7 +26,7 @@ module.exports = React.createClass
 
   componentDidUpdate: (prevProps, prevState) ->
 
-    $(@getDOMNode()).select2 'val', @props.valueLink?.value || @props.defaultValue
+    $(@getDOMNode()).select2 'val', @props.valueLink?.value || @props.value || @props.defaultValue
 
   componentWillUnmount: ->
     $(@getDOMNode()).select2 'destroy'
