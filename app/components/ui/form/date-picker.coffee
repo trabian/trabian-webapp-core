@@ -64,4 +64,5 @@ module.exports = React.createClass
       className: 'form-control dateselector-input'
       placeholder: @props.placeholder
       value: value
+      disabled: @props.disabled
       onChange: ->
