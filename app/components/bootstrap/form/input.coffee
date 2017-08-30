@@ -36,6 +36,7 @@ module.exports = React.createClass
     FormGroup
       className: @props.className
       validationError: @props.validationError
+      showErrorMessage: ! @props.horizontal
     , [
 
       if @props.label
@@ -59,10 +60,18 @@ module.exports = React.createClass
           _(labelProps).extend @props.label
 
         React.DOM.label labelProps, text
+
       if @props.horizontal
+
+        errorMessage = if @props.validationError
+
+          React.DOM.span
+            className: 'help-block text-error'
+          , @props.validationError
+
         React.DOM.div
           className: @props.inputContainerClass
-          [input]
+          [input, errorMessage]
       else
           input
 
