@@ -29,6 +29,7 @@ module.exports = React.createClass
       startDate: @props.startDate
       endDate: @props.endDate
       format: 'm/d/yy'
+      beforeShowDay: @props.beforeShowDay
     ).on 'changeDate', (e) =>
 
       unless @skipChangeEvent
