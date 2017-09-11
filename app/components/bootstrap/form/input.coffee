@@ -15,6 +15,7 @@ module.exports = React.createClass
       className: [
         'form-control',
         @props.inputClass
+        'input'
       ].join ' '
       disabled: @props.disabled
       id: @props.id
@@ -32,6 +33,23 @@ module.exports = React.createClass
       autoCapitalize: @props.autoCapitalize
       autoFocus: @props.autoFocus
       spellCheck: @props.spellCheck
+
+    inputsAndAddons = if @props.addonBefore or @props.addonAfter
+      React.DOM.div
+        className: 'input-group'
+      , [
+        if @props.addonBefore
+          React.DOM.div
+            className: 'input-group-addon'
+          , @props.addonBefore
+        input,
+        if @props.addonAfter
+          React.DOM.div
+            className: 'input-group-addon'
+          , @props.addonAfter
+      ]
+    else
+      input
 
     FormGroup
       className: @props.className
@@ -59,12 +77,13 @@ module.exports = React.createClass
           _(labelProps).extend @props.label
 
         React.DOM.label labelProps, text
+
       if @props.horizontal
         React.DOM.div
           className: @props.inputContainerClass
-          [input]
+          inputsAndAddons
       else
-          input
+          inputsAndAddons
 
       @props.children
 
