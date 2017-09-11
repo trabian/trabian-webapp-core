@@ -30,7 +30,7 @@ module.exports = React.createClass
       endDate: @props.endDate
       format: 'm/d/yy'
       beforeShowDay: @props.beforeShowDay
-    ).on 'changeDate', (e) =>
+    ).on('hide', @props.onBlur).on 'changeDate', (e) =>
 
       unless @skipChangeEvent
 
@@ -66,4 +66,5 @@ module.exports = React.createClass
       placeholder: @props.placeholder
       value: value
       disabled: @props.disabled
+      onFocus: @props.onFocus
       onChange: ->
