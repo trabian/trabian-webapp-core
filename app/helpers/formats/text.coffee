@@ -68,3 +68,12 @@ module.exports =
   stripTags: (original) ->
     return '' unless original
     String(original).replace /<\/?[^>]+>/g, ''
+
+  formatPhoneNumber: (original) ->
+    return '' unless original
+    onlyNumbers = ('' + original).replace(/\D/g, '')
+    match = onlyNumbers.match(/^(\d{3})(\d{3})(\d{4})$/)
+    if match
+      "#{match[1]}-#{match[2]}-#{match[3]}"
+    else
+      ""
